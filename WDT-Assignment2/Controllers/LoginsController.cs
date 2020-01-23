@@ -19,10 +19,7 @@ namespace WDT_Assignment2.Controllers
     {
         private readonly NwbaContext _context;
 
-        public LoginsController(NwbaContext context)
-        {
-            _context = context;
-        }
+        public LoginsController(NwbaContext context) => _context = context;
 
         public IActionResult Login() => View(); 
 
@@ -32,13 +29,12 @@ namespace WDT_Assignment2.Controllers
         {
             var login = await _context.Logins.FindAsync(userID);
 
-            if(login == null)
+            if(login == null || !PBKDF2.Verify(login.Password, password))
             {
-                Console.WriteLine("Login is null"); 
-            } else
-            {
-                Console.WriteLine(login.UserID);
-            }
+                ModelState.AddModelError("LoginFailed", "Login failed, please try again.");
+                return View(new Login { UserID = userID });
+            } 
+            
             
                 
             if(login == null || !PBKDF2.Verify(login.Password, password))

@@ -1,53 +1,30 @@
-﻿@model IEnumerable<WDT_Assignment2.Models.Account>
-
+﻿@model Customer
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Accounts";
 }
 
-<h1>Index</h1>
+<div>
+    <h1 class="display-4">Welcome, @Model.CustomerName</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
+    <h3>Your Accounts</h3>
+    <table class="table">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.AccountNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AccountType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Balance)
-            </th>
+            <th>@Html.DisplayNameFor(x => x.Accounts[0].AccountNumber)</th>
+            <th>@Html.DisplayNameFor(x => x.Accounts[0].AccountType)</th>
+            <th>@Html.DisplayNameFor(x => x.Accounts[0].Balance)</th>
             <th></th>
         </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.AccountNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AccountType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.CustomerName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Balance)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.AccountNumber">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.AccountNumber">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.AccountNumber">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        @foreach (var account in Model.Accounts)
+        {
+            <tr>
+                <td>@Html.DisplayFor(x => account.AccountNumber)</td>
+                <td>@Html.DisplayFor(x => account.AccountType)</td>
+                <td>@Html.DisplayFor(x => account.Balance)</td>
+                <td>
+                    <a class="btn btn-primary"
+                       asp-action="Deposit" asp-route-id="@account.AccountNumber">Deposit</a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
