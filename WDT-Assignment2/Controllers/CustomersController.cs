@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WDT_Assignment2.Data;
 using WDT_Assignment2.Models;
-using WDT_Assignment2.Attributes; 
+using WDT_Assignment2.Attributes;
+using WDT_Assignment2.Utilities;
 
 namespace WDT_Assignment2.Controllers
 {
@@ -31,6 +32,39 @@ namespace WDT_Assignment2.Controllers
             var customer = await _context.Customers.FindAsync(CustomerID);
 
             return View(customer);
+        }
+
+
+        public async Task<IActionResult> Deposit(int id) => View(await _context.Accounts.FindAsync(id));
+
+        [HttpPost]
+        public async Task<IActionResult> Deposit(int id, decimal amount)
+        {
+            var account = await _context.Accounts.FindAsync(id);
+
+            if(amount <= 0)
+                ModelState.AddModelError(nameof(amount), "Amount must be positive.");
+            if (amount.HasMoreThanTwoDecimalPlaces())
+                ModelState.AddModelError(nameof(amount), "Amount cannot have more than 2 decimal places.");
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Amount = amount;
+                return View(account);
+            }
+
+            // Note this code could be moved out of the controller, e.g., into the Model.
+            account.Balance += amount;
+            account.Transactions.Add(
+                new Transaction
+                {
+                    TransactionType = "D",
+                    Amount = amount,
+                    ModifyDate= DateTime.UtcNow
+                });
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
 
