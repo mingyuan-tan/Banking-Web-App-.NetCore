@@ -19,6 +19,27 @@ namespace WDT_Assignment2.Controllers
             _context = context;
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //-------------------------------------------- METHODS BELOW ARE AUTO-CREATED ------------------------------------------------//
         // GET: Logins
         public async Task<IActionResult> Index()
         {

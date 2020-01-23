@@ -25,6 +25,12 @@ namespace WDT_Assignment2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSession(options =>
+            {
+                // Make the session cookie essential. 
+                options.Cookie.IsEssential = true;
+            });
+
             services.AddControllersWithViews();
 
             services.AddDbContext<NwbaContext>(options => options.UseSqlServer(Configuration.GetConnectionString("NwbaContext")));
@@ -49,6 +55,8 @@ namespace WDT_Assignment2
 
             // Creating the pattern for URL 
             app.UseRouting();
+
+            app.UseSession(); 
 
             app.UseAuthorization();
 
