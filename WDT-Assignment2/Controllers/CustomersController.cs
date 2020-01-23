@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -7,12 +8,18 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WDT_Assignment2.Data;
 using WDT_Assignment2.Models;
+using WDT_Assignment2.Attributes;
+using WDT_Assignment2.Utilities;
 
 namespace WDT_Assignment2.Controllers
 {
+    [AuthorizeCustomer]
     public class CustomersController : Controller
     {
         private readonly NwbaContext _context;
+
+        // ReSharper disable once PossibleInvalidOperationException
+        private int CustomerID => HttpContext.Session.GetInt32(nameof(Customer.CustomerID)).Value;
 
         public CustomersController(NwbaContext context)
         {
@@ -22,8 +29,63 @@ namespace WDT_Assignment2.Controllers
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Customers.ToListAsync());
+            var customer = await _context.Customers.FindAsync(CustomerID);
+
+            return View(customer);
         }
+
+
+        public async Task<IActionResult> Deposit(int id) => View(await _context.Accounts.FindAsync(id));
+
+        [HttpPost]
+        public async Task<IActionResult> Deposit(int id, decimal amount)
+        {
+            var account = await _context.Accounts.FindAsync(id);
+
+            if(amount <= 0)
+                ModelState.AddModelError(nameof(amount), "Amount must be positive.");
+            if (amount.HasMoreThanTwoDecimalPlaces())
+                ModelState.AddModelError(nameof(amount), "Amount cannot have more than 2 decimal places.");
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Amount = amount;
+                return View(account);
+            }
+
+            // Note this code could be moved out of the controller, e.g., into the Model.
+            account.Balance += amount;
+            account.Transactions.Add(
+                new Transaction
+                {
+                    TransactionType = "D",
+                    Amount = amount,
+                    ModifyDate= DateTime.UtcNow
+                });
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //-------------------------------------------- METHODS BELOW ARE AUTO-CREATED ------------------------------------------------//
+
+
 
         // GET: Customers/Details/5
         public async Task<IActionResult> Details(int? id)

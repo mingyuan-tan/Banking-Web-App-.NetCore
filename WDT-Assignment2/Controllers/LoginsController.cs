@@ -2,23 +2,83 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SimpleHashing;
 using WDT_Assignment2.Data;
 using WDT_Assignment2.Models;
 
 namespace WDT_Assignment2.Controllers
 {
+
+    // Customized route - change the URL 
+    //[Route("/Nbwa/SecureLogin")]
     public class LoginsController : Controller
     {
         private readonly NwbaContext _context;
 
-        public LoginsController(NwbaContext context)
+        public LoginsController(NwbaContext context) => _context = context;
+
+        public IActionResult Login() => View(); 
+
+        // Login Method
+        [HttpPost]
+        public async Task<IActionResult> Login(string userID, string password)
         {
-            _context = context;
+            var login = await _context.Logins.FindAsync(userID);
+
+            if(login == null || !PBKDF2.Verify(login.Password, password))
+            {
+                ModelState.AddModelError("LoginFailed", "Login failed, please try again.");
+                return View(new Login { UserID = userID });
+            } 
+            
+            
+                
+            if(login == null || !PBKDF2.Verify(login.Password, password))
+            {
+                ModelState.AddModelError("LoginFailed", "Login Failed, please try again.");
+                //Console.WriteLine(login.UserID);
+                return View(new Login { UserID = userID });
+            }
+
+            // Login customer.
+            HttpContext.Session.SetInt32(nameof(Customer.CustomerID), login.CustomerID);
+            HttpContext.Session.SetString(nameof(Customer.CustomerName), login.Customer.CustomerName);
+
+            return RedirectToAction("Index", "Customers");
         }
 
+
+        //Logout Method 
+        [Route("LogoutNow")]
+        public IActionResult Logout()
+        {
+            // Logout customer.
+            HttpContext.Session.Clear();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //-------------------------------------------- METHODS BELOW ARE AUTO-CREATED ------------------------------------------------//
         // GET: Logins
         public async Task<IActionResult> Index()
         {

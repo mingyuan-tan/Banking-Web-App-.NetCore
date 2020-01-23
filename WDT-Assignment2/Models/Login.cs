@@ -10,7 +10,7 @@ namespace WDT_Assignment2.Models
 {
     public class Login
     {
-        [Key]
+       
         [Required]
         public int CustomerID { get; set; }
 
@@ -18,6 +18,8 @@ namespace WDT_Assignment2.Models
         public virtual Customer Customer { get; set; }
 
         [Required, StringLength(50)]
+        [Display(Name = "User ID")]
+        [Key]
         public string UserID { get; set; }
 
         [Required, StringLength(64)]

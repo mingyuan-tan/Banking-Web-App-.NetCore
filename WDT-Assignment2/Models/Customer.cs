@@ -46,6 +46,6 @@ namespace WDT_Assignment2.Models
         public virtual List<Account> Accounts { get; set;} 
 
         // Denotes 1 - 1 relationship between Customer and Login 
-        public Login Login { get; set; }
+        public virtual Login Login { get; set; }
     }
 }
