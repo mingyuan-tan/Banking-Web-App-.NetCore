@@ -30,7 +30,8 @@ namespace WDT_Assignment2.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string userID, string password)
         {
-            var login = await _context.Logins.FindAsync(userID); 
+            var login = await _context.Logins.FindAsync(userID);
+                
             if(login == null || !PBKDF2.Verify(login.Password, password))
             {
                 ModelState.AddModelError("LoginFailed", "Login Failed, please try again.");

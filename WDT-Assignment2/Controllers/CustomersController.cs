@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -7,12 +8,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WDT_Assignment2.Data;
 using WDT_Assignment2.Models;
+using WDT_Assignment2.Attributes; 
 
 namespace WDT_Assignment2.Controllers
 {
+    [AuthorizeCustomer]
     public class CustomersController : Controller
     {
         private readonly NwbaContext _context;
+
+        // ReSharper disable once PossibleInvalidOperationException
+        private int CustomerID => HttpContext.Session.GetInt32(nameof(Customer.CustomerID)).Value;
 
         public CustomersController(NwbaContext context)
         {
@@ -22,8 +28,30 @@ namespace WDT_Assignment2.Controllers
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Customers.ToListAsync());
+            var customer = await _context.Customers.FindAsync(CustomerID);
+
+            return View(customer);
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //-------------------------------------------- METHODS BELOW ARE AUTO-CREATED ------------------------------------------------//
+
+
 
         // GET: Customers/Details/5
         public async Task<IActionResult> Details(int? id)
