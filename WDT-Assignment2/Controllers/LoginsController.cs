@@ -31,10 +31,20 @@ namespace WDT_Assignment2.Controllers
         public async Task<IActionResult> Login(string userID, string password)
         {
             var login = await _context.Logins.FindAsync(userID);
+
+            if(login == null)
+            {
+                Console.WriteLine("Login is null"); 
+            } else
+            {
+                Console.WriteLine(login.UserID);
+            }
+            
                 
             if(login == null || !PBKDF2.Verify(login.Password, password))
             {
                 ModelState.AddModelError("LoginFailed", "Login Failed, please try again.");
+                //Console.WriteLine(login.UserID);
                 return View(new Login { UserID = userID });
             }
 
