@@ -59,7 +59,7 @@ namespace WDT_Assignment2.Controllers
                 {
                     TransactionType = "D",
                     Amount = amount,
-                    ModifyDate= DateTime.UtcNow
+                    ModifyDate = DateTime.UtcNow
                 });
 
             await _context.SaveChangesAsync();
@@ -67,7 +67,41 @@ namespace WDT_Assignment2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> Withdrawal(int id) => View(await _context.Accounts.FindAsync(id));
 
+        [HttpPost]
+        public async Task<IActionResult> Withdrawal (int id, decimal amount)
+        {
+            var account = await _context.Accounts.FindAsync(id);
+            decimal withdrawalFee = 0.1m;
+            var totalAmount = amount + withdrawalFee;
+
+            if (amount <= 0)
+                ModelState.AddModelError(nameof(amount), "Amount must be positive.");
+            if (amount.HasMoreThanTwoDecimalPlaces())
+                ModelState.AddModelError(nameof(amount), "Amount cannot have more than 2 decimal places.");
+            if (totalAmount > account.Balance)
+                ModelState.AddModelError(nameof(amount), "Amount plus withdrawal fee of $0.10 must be less that account balance.");
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Amount = amount;
+                return View(account);
+            }
+
+            // Note this code could be moved out of the controller, e.g., into the Model.
+            account.Balance -= totalAmount;
+            account.Transactions.Add(
+                new Transaction
+                {
+                    TransactionType = "W",
+                    Amount = amount,
+                    ModifyDate = DateTime.UtcNow
+                });
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
 
 
 
