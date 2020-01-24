@@ -103,6 +103,43 @@ namespace WDT_Assignment2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> Transfer(int id) => View(await _context.Accounts.FindAsync(id));
+
+        public async Task<IActionResult> Transfer(int id, Account destAccount, decimal amount)
+        {
+            var account = await _context.Accounts.FindAsync(id);
+            decimal transferFee = 0.2m;
+            var totalAmount = amount + transferFee;
+
+            if (amount <= 0)
+                ModelState.AddModelError(nameof(amount), "Amount must be positive.");
+            if (amount.HasMoreThanTwoDecimalPlaces())
+                ModelState.AddModelError(nameof(amount), "Amount cannot have more than 2 decimal places.");
+            if (totalAmount > account.Balance)
+                ModelState.AddModelError(nameof(amount), "Amount plus transfer fee of $0.20 must be less that account balance.");
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Amount = amount;
+                return View(account);
+            }
+
+            account.Balance -= totalAmount;
+            account.Transactions.Add(
+                new Transaction
+                {
+                    TransactionType = "T",
+                    Amount = amount,
+                    ModifyDate = DateTime.UtcNow
+                });
+
+            // update destination account's balance
+            // add to destination account's transaction
+
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
 
 
 
