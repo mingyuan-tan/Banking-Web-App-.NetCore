@@ -1,6 +1,4 @@
 ﻿@model Customer
-@using Microsoft.AspNetCore.Http
-
 @{
     ViewData["Title"] = "Accounts";
 }
@@ -18,31 +16,23 @@
         </tr>
         @foreach (var account in Model.Accounts)
         {
-            <tr>
-                <td>@Html.DisplayFor(x => account.AccountNumber)</td>
-                <td>@Html.DisplayFor(x => account.AccountType)</td>
-                <td>@Html.DisplayFor(x => account.Balance)</td>
-                <td>
-                    <a class="btn btn-primary"
-                       asp-action="Deposit" asp-route-id="@account.AccountNumber">Deposit</a>
-                </td>
-                <td>
-                    <a class="btn btn-primary"
-                       asp-action="Withdrawal" asp-route-id="@account.AccountNumber">Withdraw</a>
-                </td>
-                @{
-                    // int - grabs the number of accounts from the session object
-                    var numOfAccounts = Model.Accounts.Count;
-                }
-                @if (numOfAccounts == 2)
-                {
-                    <td>
-                    <a class="btn btn-primary"
-                       asp-action="Transfer" asp-route-id="@account.AccountNumber">Transfer</a>
-                </td>
-                }
-                
-            </tr>
+    <tr>
+        <td>@Html.DisplayFor(x => account.AccountNumber)</td>
+        <td>@Html.DisplayFor(x => account.AccountType)</td>
+        <td>@Html.DisplayFor(x => account.Balance)</td>
+        <td>
+            <a class="btn btn-primary"
+               asp-action="Deposit" asp-route-id="@account.AccountNumber">Deposit</a>
+        </td>
+        <td>
+            <a class="btn btn-primary"
+               asp-action="Withdrawal" asp-route-id="@account.AccountNumber">Withdraw</a>
+        </td>
+        <td>
+            <a class="btn btn-primary"
+               asp-action="Transfer" asp-route-id="@account.AccountNumber">Transfer</a>
+        </td>
+    </tr>
         }
     </table>
 </div>
