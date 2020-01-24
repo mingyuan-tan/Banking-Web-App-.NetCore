@@ -1,4 +1,6 @@
 ﻿@model Customer
+@using Microsoft.AspNetCore.Http
+
 @{
     ViewData["Title"] = "Accounts";
 }
@@ -28,6 +30,18 @@
                     <a class="btn btn-primary"
                        asp-action="Withdrawal" asp-route-id="@account.AccountNumber">Withdraw</a>
                 </td>
+                @{
+                    // int - grabs the number of accounts from the session object
+                    var numOfAccounts = Model.Accounts.Count;
+                }
+                @if (numOfAccounts == 2)
+                {
+                    <td>
+                    <a class="btn btn-primary"
+                       asp-action="Transfer" asp-route-id="@account.AccountNumber">Transfer</a>
+                </td>
+                }
+                
             </tr>
         }
     </table>
