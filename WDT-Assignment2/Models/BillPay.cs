@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace WDT_Assignment2.Models
 {
@@ -16,11 +17,14 @@ namespace WDT_Assignment2.Models
 
         [ForeignKey("Account")]
         public int AccountNumber { get; set; }
+
+        [JsonIgnore]
         public virtual Account Account { get; set; }
 
         [ForeignKey("Payee")]
         public int PayeeID { get; set; }
 
+        [JsonIgnore]
         public virtual Payee Payee { get; set; }
 
         [Column(TypeName = "Money")]

@@ -10,6 +10,8 @@ using WDT_Assignment2.Data;
 using WDT_Assignment2.Models;
 using WDT_Assignment2.Attributes;
 using WDT_Assignment2.Utilities;
+using Newtonsoft.Json;
+using X.PagedList;
 
 namespace WDT_Assignment2.Controllers
 {
@@ -161,11 +163,49 @@ namespace WDT_Assignment2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> AccountSelection()
+        {
+            var customer = await _context.Customers.FindAsync(CustomerID);
 
+            return View(customer);
+        }
 
+        private const string AccountSessionKey = "_AccountSessionKey";
 
+        public async Task<IActionResult> IndexToViewStatements(int accountNumber)
+        {
+            var account = await _context.Accounts.FindAsync(accountNumber);
 
+            if (account == null)
+            {
+                return NotFound();
+            }
 
+            // Store a complex object in the session via JSON serialization. 
+            var accountJson = JsonConvert.SerializeObject(account);
+            HttpContext.Session.SetString(AccountSessionKey, accountJson);
+
+            return RedirectToAction(nameof(ViewStatements));
+
+        }
+
+        public async Task<IActionResult> ViewStatements(int? page = 1)
+        {
+            var accountJson = HttpContext.Session.GetString(AccountSessionKey);
+            if (accountJson == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            var account = JsonConvert.DeserializeObject<Account>(accountJson);
+            ViewBag.Account = account;
+
+            const int pageSize = 4;
+            var pagedList = await _context.Transactions.Where(x => x.AccountNumber == account.AccountNumber).
+                ToPagedListAsync(page, pageSize);
+
+            return View(pagedList);
+        }
 
 
 

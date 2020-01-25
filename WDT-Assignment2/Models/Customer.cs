@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace WDT_Assignment2.Models
 {
@@ -43,9 +44,11 @@ namespace WDT_Assignment2.Models
         public string Phone { get; set; }
 
         // Navigation Property - Customer has many accounts 
-        public virtual List<Account> Accounts { get; set;} 
+        [JsonIgnore]
+        public virtual List<Account> Accounts { get; set;}
 
         // Denotes 1 - 1 relationship between Customer and Login 
+        [JsonIgnore]
         public virtual Login Login { get; set; }
     }
 }

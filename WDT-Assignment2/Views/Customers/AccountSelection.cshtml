@@ -1,0 +1,33 @@
+﻿@model Customer
+@{
+    ViewData["Title"] = "Accounts";
+}
+
+<div>
+    <h1 class="display-4">Your Accounts</h1>
+
+    <h3>Please select which account's staments you wish to see</h3>
+    <table class="table">
+        <tr>
+            <th>@Html.DisplayNameFor(x => x.Accounts[0].AccountNumber)</th>
+            <th>@Html.DisplayNameFor(x => x.Accounts[0].AccountType)</th>
+            <th>@Html.DisplayNameFor(x => x.Accounts[0].Balance)</th>
+            <th></th>
+        </tr>
+        @foreach (var account in Model.Accounts)
+        {
+            <tr>
+                <td>@Html.DisplayFor(x => account.AccountNumber)</td>
+                <td>@Html.DisplayFor(x => account.AccountType)</td>
+                <td>@Html.DisplayFor(x => account.Balance)</td>
+                <td>
+                    <form asp-action="IndexToViewStatements">
+                        <input type="hidden" name="AccountNumber" value="@account.AccountNumber" />
+                        <input type="submit" class="btn btn-primary" value="View Statements" />
+                    </form>
+                </td>
+
+            </tr>
+        }
+    </table>
+</div>
