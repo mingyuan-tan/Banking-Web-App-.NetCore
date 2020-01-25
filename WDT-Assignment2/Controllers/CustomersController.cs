@@ -107,22 +107,23 @@ namespace WDT_Assignment2.Controllers
 
         public async Task<IActionResult> Transfer_Own(int id) => View(await _context.Accounts.FindAsync(id));
 
+        [Route("/TransferOwn")]
         public async Task<IActionResult> Transfer_Own(int id, decimal amount)
         {
             var account = await _context.Accounts.FindAsync(id);
             decimal transferFee = 0.2m;
             var totalAmount = amount + transferFee;
+            int selectedID;
 
-            Account destAccount = null;
-
-            if(account.AccountNumber == _context.Accounts.First().AccountNumber)
+            if (id % 2 == 0)
             {
-                destAccount = _context.Accounts.Last();
+                selectedID = id + 1;
             }
             else
             {
-                destAccount = _context.Accounts.First();
+                selectedID = id - 1;
             }
+            var destAccount = await _context.Accounts.FindAsync(selectedID);
 
             if (amount <= 0)
                 ModelState.AddModelError(nameof(amount), "Amount must be positive.");
