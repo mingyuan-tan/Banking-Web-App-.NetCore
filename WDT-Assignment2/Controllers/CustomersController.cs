@@ -201,10 +201,12 @@ namespace WDT_Assignment2.Controllers
             ViewBag.Account = account;
 
             const int pageSize = 4;
-            var pagedList = await _context.Transactions.Where(x => x.AccountNumber == account.AccountNumber).
-                ToPagedListAsync(page, pageSize);
+            var pagedList = _context.Transactions.Where(x => x.AccountNumber == account.AccountNumber);
 
-            return View(pagedList);
+            var pagedListOrdered = await pagedList.OrderByDescending(x => x.TransactionID).ToPagedListAsync(page, pageSize); 
+
+
+            return View(pagedListOrdered);
         }
 
 
