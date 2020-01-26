@@ -12,6 +12,7 @@ using WDT_Assignment2.Attributes;
 using WDT_Assignment2.Utilities;
 using Newtonsoft.Json;
 using X.PagedList;
+using SimpleHashing;
 
 namespace WDT_Assignment2.Controllers
 {
@@ -22,6 +23,8 @@ namespace WDT_Assignment2.Controllers
 
         // ReSharper disable once PossibleInvalidOperationException
         private int CustomerID => HttpContext.Session.GetInt32(nameof(Customer.CustomerID)).Value;
+
+        private string UserID => HttpContext.Session.GetString("UserID");
 
         public CustomersController(NwbaContext context)
         {
@@ -216,6 +219,40 @@ namespace WDT_Assignment2.Controllers
 
             return View(customer);
         }
+
+        //public async Task<IActionResult> ChangePassword(string id) => View(await _context.Logins.FindAsync(id));
+
+        [Route("Customers/ChangePasswordView")]
+        public async Task<IActionResult> ChangePassword()
+        {
+            var login = await _context.Logins.FindAsync(UserID);
+
+            return View(login);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(string id, string password)
+        {
+            var login = await _context.Logins.FindAsync(id);
+            if(PBKDF2.Verify(login.Password, password))
+                ModelState.AddModelError(nameof(password), "Cannot change to the same password");
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Password = password;
+                return View();
+            }
+
+            var passwordHash = PBKDF2.Hash(password); 
+            login.Password = passwordHash;
+            login.ModifyDate = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+
+
+        }
+
 
 
 
