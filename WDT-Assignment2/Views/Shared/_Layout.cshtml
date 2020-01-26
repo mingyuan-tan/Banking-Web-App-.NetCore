@@ -17,31 +17,42 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">NWBA | Where The Wealthy Gets Wealthier</a>
+                @{
+                    // Boolean - if Session object contains name of customer, means it is logged in
+                    var isLoggedIn = Context.Session.GetInt32(nameof(Customer.CustomerID)).HasValue;
+                }
+
+                @if (isLoggedIn)
+                {
+                    <a class="navbar-brand" asp-area="" asp-controller="Customers" asp-action="Index">NWBA | Where The Wealthy Gets Wealthier</a>
+                }
+                else
+                {
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">NWBA | Where The Wealthy Gets Wealthier</a>
+                }
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav">
-                        @{
-                            // Boolean - if Session object contains name of customer, means it is logged in 
-                            var isLoggedIn = Context.Session.GetInt32(nameof(Customer.CustomerID)).HasValue;
-                        }
-                        
+
+
                         <!-- If customer is logged, fetch session to display the name of customer -->
-                        @if(isLoggedIn)
+                        @if (isLoggedIn)
                         {
                             <li class="nav-item">
                                 <span class="nav-link text-dark">
                                     Welcome, @Context.Session.GetString(nameof(Customer.CustomerName))
                                 </span>
                             </li>
-                            <li class="nav-item">     
+                            <li class="nav-item">
                                 <!-- NOTE: NEED TO CREATE LOGOUT FUNCTION-->
                                 <a class="nav-link text-dark" asp-controller="Logins" asp-action="Logout">Logout</a>
                             </li>
-                        } else
+                        }
+                        else
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Logins" asp-action="Login">Login</a>
@@ -55,12 +66,13 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        @if (isLoggedIn) {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Customers" asp-action="AccountSelection">My Statements</a>
-                         </li>
+                        @if (isLoggedIn)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Customers" asp-action="AccountSelection">My Statements</a>
+                            </li>
                         }
-                        
+
                     </ul>
                 </div>
             </div>

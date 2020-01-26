@@ -32,7 +32,7 @@
         </table>
 
         
-        @Html.PagedListPager(Model, page => Url.Action("ViewStatement", new { page }),
+        @Html.PagedListPager(Model, page => Url.Action("ViewStatements", new { page }),
             new PagedListRenderOptions
                 {
                 LiElementClasses = new[] { "page-item" },
