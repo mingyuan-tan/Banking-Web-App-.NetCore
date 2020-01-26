@@ -210,7 +210,12 @@ namespace WDT_Assignment2.Controllers
         }
 
 
+        public async Task<IActionResult> MyProfile()
+        {
+            var customer = await _context.Customers.FindAsync(CustomerID);
 
+            return View(customer);
+        }
 
 
 

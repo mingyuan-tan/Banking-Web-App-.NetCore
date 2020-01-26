@@ -1,12 +1,16 @@
 ﻿@model Customer
+@using Microsoft.AspNetCore.Http
 @{
     ViewData["Title"] = "Accounts";
 }
 
 <div>
+    @{
+        var userID = @Context.Session.GetString("UserID");
+     } 
     <h1 class="display-4">Welcome, @Model.CustomerName</h1>
 
-    <h3>Your Accounts</h3>
+    <h3>Accounts for User ID: @userID</h3>
     <table class="table">
         <tr>
             <th>@Html.DisplayNameFor(x => x.Accounts[0].AccountNumber)</th>
@@ -16,23 +20,23 @@
         </tr>
         @foreach (var account in Model.Accounts)
         {
-    <tr>
-        <td>@Html.DisplayFor(x => account.AccountNumber)</td>
-        <td>@Html.DisplayFor(x => account.AccountType)</td>
-        <td>@Html.DisplayFor(x => account.Balance)</td>
-        <td>
-            <a class="btn btn-primary"
-               asp-action="Deposit" asp-route-id="@account.AccountNumber">Deposit</a>
-        </td>
-        <td>
-            <a class="btn btn-primary"
-               asp-action="Withdrawal" asp-route-id="@account.AccountNumber">Withdraw</a>
-        </td>
-        <td>
-            <a class="btn btn-primary"
-               asp-action="Transfer" asp-route-id="@account.AccountNumber">Transfer</a>
-        </td>
-    </tr>
+            <tr>
+                <td>@Html.DisplayFor(x => account.AccountNumber)</td>
+                <td>@Html.DisplayFor(x => account.AccountType)</td>
+                <td>@Html.DisplayFor(x => account.Balance)</td>
+                <td>
+                    <a class="btn btn-primary"
+                       asp-action="Deposit" asp-route-id="@account.AccountNumber">Deposit</a>
+                </td>
+                <td>
+                    <a class="btn btn-primary"
+                       asp-action="Withdrawal" asp-route-id="@account.AccountNumber">Withdraw</a>
+                </td>
+                <td>
+                    <a class="btn btn-primary"
+                       asp-action="Transfer" asp-route-id="@account.AccountNumber">Transfer</a>
+                </td>
+            </tr>
         }
     </table>
 </div>

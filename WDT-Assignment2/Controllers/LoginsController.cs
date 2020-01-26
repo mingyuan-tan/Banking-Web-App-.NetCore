@@ -47,6 +47,7 @@ namespace WDT_Assignment2.Controllers
             // Login customer.
             HttpContext.Session.SetInt32(nameof(Customer.CustomerID), login.CustomerID);
             HttpContext.Session.SetString(nameof(Customer.CustomerName), login.Customer.CustomerName);
+            HttpContext.Session.SetString("UserID", login.UserID);
 
             return RedirectToAction("Index", "Customers");
         }
