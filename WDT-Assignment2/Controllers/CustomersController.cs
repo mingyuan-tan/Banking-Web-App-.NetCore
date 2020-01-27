@@ -13,6 +13,7 @@ using WDT_Assignment2.Utilities;
 using Newtonsoft.Json;
 using X.PagedList;
 using SimpleHashing;
+using WDT_Assignment2.ViewModels; 
 
 namespace WDT_Assignment2.Controllers
 {
@@ -31,6 +32,7 @@ namespace WDT_Assignment2.Controllers
             _context = context;
         }
 
+
         // GET: Customers
         public async Task<IActionResult> Index()
         {
@@ -38,7 +40,6 @@ namespace WDT_Assignment2.Controllers
 
             return View(customer);
         }
-
 
         public async Task<IActionResult> Deposit(int id) => View(await _context.Accounts.FindAsync(id));
 
@@ -72,7 +73,9 @@ namespace WDT_Assignment2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
         public async Task<IActionResult> Withdrawal(int id) => View(await _context.Accounts.FindAsync(id));
+
 
         [HttpPost]
         public async Task<IActionResult> Withdrawal (int id, decimal amount)
@@ -249,37 +252,31 @@ namespace WDT_Assignment2.Controllers
 
             return RedirectToAction(nameof(Index));
 
-
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> ChangePassword(int id, [Bind("CustomerID,UserID,Password,ModifyDate")] Login login)
-        //{
-        //    if (id != login.CustomerID)
-        //    {
-        //        return NotFound();
-        //    }
 
-        //    if (ModelState.IsValid)
-        //    {
+        public async Task<IActionResult> BillPay()
+        {
+            
 
-        //            var newLogin = login.Password; 
-        //            _context.Update(login);
-        //            await _context.SaveChangesAsync();
+            var customer = await _context.Customers.FindAsync(CustomerID);
+            List<Account> accounts = new List<Account>();
 
+            ViewData["AccountNumber"] = new SelectList(customer.Accounts, "AccountNumber", "AccountNumber");
 
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "CustomerName", login.CustomerID);
-        //    return View(login);
-        //}
+            foreach (var account in customer.Accounts)
+            {
+                accounts.Add(account); 
+            }
 
-
-
-
-
-
+            return View(
+                new BillPayViewModel
+                {
+                    Customer = customer, 
+                    BillPay = new BillPay(), 
+                    Accounts = accounts
+                });
+        }
 
 
         //-------------------------------------------- METHODS BELOW ARE AUTO-CREATED ------------------------------------------------//
