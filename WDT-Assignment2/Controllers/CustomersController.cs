@@ -59,6 +59,8 @@ namespace WDT_Assignment2.Controllers
                 {
                     TransactionType = "D",
                     Amount = amount,
+                    DestinationAccountNumber = id,
+                    Comment = "Deposit of $" + amount,
                     ModifyDate = DateTime.UtcNow
                 });
 
@@ -95,6 +97,8 @@ namespace WDT_Assignment2.Controllers
                 {
                     TransactionType = "W",
                     Amount = totalAmount,
+                    DestinationAccountNumber = id,
+                    Comment = "Withdrawal of $" + amount,
                     ModifyDate = DateTime.UtcNow
                 });
 
@@ -107,7 +111,8 @@ namespace WDT_Assignment2.Controllers
 
         public async Task<IActionResult> Transfer_Own(int id) => View(await _context.Accounts.FindAsync(id));
 
-        public async Task<IActionResult> Transfer_Own2(int id, decimal amount)
+        [HttpPost]
+        public async Task<IActionResult> Transfer_Own(int id, decimal amount)
         {
             var account = await _context.Accounts.FindAsync(id);
             const decimal transferFee = 0.2m;
@@ -133,7 +138,7 @@ namespace WDT_Assignment2.Controllers
             if (!ModelState.IsValid)
             {
                 ViewBag.Amount = amount;
-                return View("Transfer_Own", account);
+                return View(account);
             }
 
             account.Balance -= totalAmount;
@@ -142,6 +147,62 @@ namespace WDT_Assignment2.Controllers
                 {
                     TransactionType = "T",
                     Amount = totalAmount,
+                    DestinationAccountNumber = selectedID,
+                    Comment = "Transfer of $" + amount + " to account number " + selectedID,
+                    ModifyDate = DateTime.UtcNow
+                }); ;
+
+            destAccount.Balance += amount;
+            destAccount.Transactions.Add(
+                new Transaction
+                {
+                    TransactionType = "T",
+                    Amount = amount,
+                    DestinationAccountNumber = id,
+                    Comment = "Transfer of $" + amount + " from account number " + id,
+                    ModifyDate = DateTime.UtcNow
+                });
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Transfer_ThirdParty(int id) => View(await _context.Accounts.FindAsync(id));
+
+        [HttpPost]
+        public async Task<IActionResult> Transfer_ThirdParty(int id, int destID, decimal amount)
+        {
+            var account = await _context.Accounts.FindAsync(id);
+            const decimal transferFee = 0.2m;
+            var totalAmount = amount + transferFee;
+
+            var destAccount = await _context.Accounts.FindAsync(destID);
+
+            if (destID.ToString().Length != 4)
+                ModelState.AddModelError(nameof(destID), "Destination Account No. be be 4 digits long.");
+            if (destAccount == null)
+                ModelState.AddModelError(nameof(destID), "Destination Account No. must be a valid account number.");
+            if (amount <= 0)
+                ModelState.AddModelError(nameof(amount), "Amount must be positive.");
+            if (amount.HasMoreThanTwoDecimalPlaces())
+                ModelState.AddModelError(nameof(amount), "Amount cannot have more than 2 decimal places.");
+            if (totalAmount > account.Balance)
+                ModelState.AddModelError(nameof(amount), "Amount plus transfer fee of $ 0.20 must be less than than account balance");
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Amount = amount;
+                return View(account);
+            }
+
+            account.Balance -= totalAmount;
+            account.Transactions.Add(
+                new Transaction
+                {
+                    TransactionType = "T",
+                    Amount = totalAmount,
+                    DestinationAccountNumber = destID,
+                    Comment = "Transfer of $" + amount + " to account number " + destID,
                     ModifyDate = DateTime.UtcNow
                 });
 
@@ -150,80 +211,16 @@ namespace WDT_Assignment2.Controllers
                 new Transaction
                 {
                     TransactionType = "T",
-                    Amount = amount,
+                    Amount = totalAmount,
+                    DestinationAccountNumber = id,
+                    Comment = "Transfer of $" + amount + " from account number " + id,
                     ModifyDate = DateTime.UtcNow
                 });
 
+            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
-
-        //public async Task<IActionResult> Transfer(int id, int amount = 0)
-        //{
-        //    var account = await _context.Accounts.FindAsync(id);
-        //    return RedirectToAction(nameof(Index));
-        //}
-
-        //public async Task<IActionResult> Transfer_Own(int id) => View(await _context.Accounts.FindAsync(id));
-
-        //public async Task<IActionResult> Transfer_Own(int id) => View(await _context.Accounts.FindAsync(id));
-
-        //[Route("/TransferOwn")]
-        //public async Task<IActionResult> Transfer_Own(int id, decimal amount)
-        //{
-        //    var account = await _context.Accounts.FindAsync(id);
-        //    Console.WriteLine(amount);
-        //    decimal transferFee = 0.2m;
-        //    var totalAmount = amount + transferFee;
-        //    int selectedID;
-
-        //    if (id % 2 == 0)
-        //    {
-        //        selectedID = id + 1;
-        //    }
-        //    else
-        //    {
-        //        selectedID = id - 1;
-        //    }
-        //    var destAccount = await _context.Accounts.FindAsync(selectedID);
-
-        //    if (amount <= 0)
-        //        ModelState.AddModelError(nameof(amount), "Amount must be positive.");
-        //    if (amount.HasMoreThanTwoDecimalPlaces())
-        //        ModelState.AddModelError(nameof(amount), "Amount cannot have more than 2 decimal places.");
-        //    if (totalAmount > account.Balance)
-        //        ModelState.AddModelError(nameof(amount), "Amount plus transfer fee of $0.20 must be less that account balance.");
-        //    if (!ModelState.IsValid)
-        //    {
-        //        ViewBag.Amount = amount;
-        //        return View(account);
-        //    }
-
-        //    account.Balance -= totalAmount;
-        //    account.Transactions.Add(
-        //        new Transaction
-        //        {
-        //            TransactionType = "T",
-        //            Amount = amount,
-        //            ModifyDate = DateTime.UtcNow
-        //        });
-
-        //    // update destination account's balance
-        //    destAccount.Balance += amount;
-        //    // add to destination account's transaction
-        //    destAccount.Transactions.Add(
-        //        new Transaction
-        //        {
-        //            TransactionType = "T",
-        //            Amount = amount,
-        //            ModifyDate = DateTime.UtcNow
-
-        //        });
-
-
-        //    return RedirectToAction(nameof(Index));
-        //}
-
-
 
 
 
