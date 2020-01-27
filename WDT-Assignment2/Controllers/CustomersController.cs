@@ -13,6 +13,7 @@ using WDT_Assignment2.Utilities;
 using Newtonsoft.Json;
 using X.PagedList;
 using SimpleHashing;
+using WDT_Assignment2.ViewModels; 
 
 namespace WDT_Assignment2.Controllers
 {
@@ -31,6 +32,7 @@ namespace WDT_Assignment2.Controllers
         {
             _context = context;
         }
+
 
         // GET: Customers
         public async Task<IActionResult> Index()
@@ -74,7 +76,9 @@ namespace WDT_Assignment2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
         public async Task<IActionResult> Withdrawal(int id) => View(await _context.Accounts.FindAsync(id));
+
 
         [HttpPost]
         public async Task<IActionResult> Withdrawal(int id, decimal amount, string comment)
@@ -305,14 +309,31 @@ namespace WDT_Assignment2.Controllers
 
             return RedirectToAction(nameof(Index));
 
-
         }
 
 
+        public async Task<IActionResult> BillPay()
+        {
+            
 
+            var customer = await _context.Customers.FindAsync(CustomerID);
+            List<Account> accounts = new List<Account>();
 
+            ViewData["AccountNumber"] = new SelectList(customer.Accounts, "AccountNumber", "AccountNumber");
 
+            foreach (var account in customer.Accounts)
+            {
+                accounts.Add(account); 
+            }
 
+            return View(
+                new BillPayViewModel
+                {
+                    Customer = customer, 
+                    BillPay = new BillPay(), 
+                    Accounts = accounts
+                });
+        }
 
 
         //-------------------------------------------- METHODS BELOW ARE AUTO-CREATED ------------------------------------------------//

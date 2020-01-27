@@ -27,6 +27,8 @@ namespace WDT_Assignment2.Models
 
         [ForeignKey("DestinationAccount")]
         public int? DestinationAccountNumber { get; set; }
+
+        [JsonIgnore]
         public virtual Account DestinationAccount { get; set; }
 
         [Column(TypeName = "Money")]
