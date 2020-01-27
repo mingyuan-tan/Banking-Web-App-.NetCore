@@ -230,19 +230,18 @@ namespace WDT_Assignment2.Controllers
             return View(login);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ChangePassword(string id, string password)
+        public async Task<IActionResult> ChangePasswordSet(string password)
         {
-            var login = await _context.Logins.FindAsync(id);
-            if(PBKDF2.Verify(login.Password, password))
+            var login = await _context.Logins.FindAsync(UserID);
+            if (PBKDF2.Verify(login.Password, password))
                 ModelState.AddModelError(nameof(password), "Cannot change to the same password");
             if (!ModelState.IsValid)
             {
                 ViewBag.Password = password;
-                return View();
+                return View("ChangePassword");
             }
 
-            var passwordHash = PBKDF2.Hash(password); 
+            var passwordHash = PBKDF2.Hash(password);
             login.Password = passwordHash;
             login.ModifyDate = DateTime.UtcNow;
 
@@ -252,6 +251,29 @@ namespace WDT_Assignment2.Controllers
 
 
         }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> ChangePassword(int id, [Bind("CustomerID,UserID,Password,ModifyDate")] Login login)
+        //{
+        //    if (id != login.CustomerID)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+
+        //            var newLogin = login.Password; 
+        //            _context.Update(login);
+        //            await _context.SaveChangesAsync();
+
+
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "CustomerName", login.CustomerID);
+        //    return View(login);
+        //}
 
 
 
