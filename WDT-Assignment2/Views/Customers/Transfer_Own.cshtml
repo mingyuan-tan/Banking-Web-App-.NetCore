@@ -1,4 +1,4 @@
-﻿@model Account
+﻿@model  Account
 @{
     ViewData["Title"] = "Transfer: Own Account";
 }
@@ -7,7 +7,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Transfer_Own">
+        <form asp-action="Transfer_Own2" asp-route-id="@Model.AccountNumber">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @{
                 //Int - Pulls the number of accounts that the customer has
@@ -17,21 +17,21 @@
             {
                 if (Model == Model.Customer.Accounts[0])
                 {
-                    <p>Transferring to Acount Number @Model.Customer.Accounts[1].AccountNumber (@Model.Customer.Accounts[1].AccountType)</p>
+                    <p>Transferring to Account Number @Model.Customer.Accounts[1].AccountNumber (@Model.Customer.Accounts[1].AccountType)</p>
                 }
                 else
                 {
-        <p>Transferring to Account Number @Model.Customer.Accounts[0].AccountNumber (@Model.Customer.Accounts[1].AccountType)</p>
+                    <p>Transferring to Account Number @Model.Customer.Accounts[0].AccountNumber (@Model.Customer.Accounts[1].AccountType)</p>
                 }
-                <div class="form-group">
+        <div class="form-group">
 
-                    <label for="Amount" class="control-label"></label>
-                    <input id="Amount" name="Amount" class="form-control" value="@ViewBag.Amount?.ToString("0.00")"
-                           data-val="true" data-val-number="The field Amount must be a number."
-                           data-val-required="The Amount field is required." />
-                    @Html.ValidationMessage("Amount", new { @class = "text-danger" })
-                    <p style="font-size: 10px;">NOTE: Withdrawal will include a charge of $0.20, and will be deducted from your account when transaction is complete.</p>
-                </div>
+            <label for="Amount" class="control-label"></label>
+            <input id="Amount" name="Amount" class="form-control" value="@ViewBag.Amount?.ToString("0.00")"
+           data-val="true" data-val-number="The field Amount must be a number."
+           data-val-required="The Amount field is required." />
+            @Html.ValidationMessage("Amount", new { @class = "text-danger" })
+            <p style="font-size: 10px;">NOTE: Withdrawal will include a charge of $0.20, and will be deducted from your account when transaction is complete.</p>
+        </div>
                 <div class="form-group">
                     <input type="submit" value="Transfer" class="btn btn-primary" />
                 </div>
