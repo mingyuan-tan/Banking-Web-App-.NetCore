@@ -38,7 +38,7 @@ namespace WDT_Assignment2.Controllers
         public async Task<IActionResult> Deposit(int id) => View(await _context.Accounts.FindAsync(id));
 
         [HttpPost]
-        public async Task<IActionResult> Deposit(int id, decimal amount)
+        public async Task<IActionResult> Deposit(int id, decimal amount, string comment)
         {
             var account = await _context.Accounts.FindAsync(id);
 
@@ -60,7 +60,7 @@ namespace WDT_Assignment2.Controllers
                     TransactionType = "D",
                     Amount = amount,
                     DestinationAccountNumber = id,
-                    Comment = "Deposit of $" + amount,
+                    Comment = comment,
                     ModifyDate = DateTime.UtcNow
                 });
 
@@ -72,7 +72,7 @@ namespace WDT_Assignment2.Controllers
         public async Task<IActionResult> Withdrawal(int id) => View(await _context.Accounts.FindAsync(id));
 
         [HttpPost]
-        public async Task<IActionResult> Withdrawal (int id, decimal amount)
+        public async Task<IActionResult> Withdrawal (int id, decimal amount, string comment)
         {
             var account = await _context.Accounts.FindAsync(id);
             const decimal withdrawalFee = 0.1m;
@@ -98,7 +98,7 @@ namespace WDT_Assignment2.Controllers
                     TransactionType = "W",
                     Amount = totalAmount,
                     DestinationAccountNumber = id,
-                    Comment = "Withdrawal of $" + amount,
+                    Comment = comment,
                     ModifyDate = DateTime.UtcNow
                 });
 
@@ -112,7 +112,7 @@ namespace WDT_Assignment2.Controllers
         public async Task<IActionResult> Transfer_Own(int id) => View(await _context.Accounts.FindAsync(id));
 
         [HttpPost]
-        public async Task<IActionResult> Transfer_Own(int id, decimal amount)
+        public async Task<IActionResult> Transfer_Own(int id, decimal amount, string comment)
         {
             var account = await _context.Accounts.FindAsync(id);
             const decimal transferFee = 0.2m;
@@ -148,7 +148,7 @@ namespace WDT_Assignment2.Controllers
                     TransactionType = "T",
                     Amount = totalAmount,
                     DestinationAccountNumber = selectedID,
-                    Comment = "Transfer of $" + amount + " to account number " + selectedID,
+                    Comment = comment,
                     ModifyDate = DateTime.UtcNow
                 }); ;
 
@@ -159,7 +159,7 @@ namespace WDT_Assignment2.Controllers
                     TransactionType = "T",
                     Amount = amount,
                     DestinationAccountNumber = id,
-                    Comment = "Transfer of $" + amount + " from account number " + id,
+                    Comment = comment,
                     ModifyDate = DateTime.UtcNow
                 });
 
@@ -171,7 +171,7 @@ namespace WDT_Assignment2.Controllers
         public async Task<IActionResult> Transfer_ThirdParty(int id) => View(await _context.Accounts.FindAsync(id));
 
         [HttpPost]
-        public async Task<IActionResult> Transfer_ThirdParty(int id, int destID, decimal amount)
+        public async Task<IActionResult> Transfer_ThirdParty(int id, int destID, decimal amount, string comment)
         {
             var account = await _context.Accounts.FindAsync(id);
             const decimal transferFee = 0.2m;
@@ -202,7 +202,7 @@ namespace WDT_Assignment2.Controllers
                     TransactionType = "T",
                     Amount = totalAmount,
                     DestinationAccountNumber = destID,
-                    Comment = "Transfer of $" + amount + " to account number " + destID,
+                    Comment = comment,
                     ModifyDate = DateTime.UtcNow
                 });
 
@@ -213,7 +213,7 @@ namespace WDT_Assignment2.Controllers
                     TransactionType = "T",
                     Amount = totalAmount,
                     DestinationAccountNumber = id,
-                    Comment = "Transfer of $" + amount + " from account number " + id,
+                    Comment = comment,
                     ModifyDate = DateTime.UtcNow
                 });
 
