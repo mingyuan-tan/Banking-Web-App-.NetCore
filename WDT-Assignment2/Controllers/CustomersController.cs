@@ -10,6 +10,9 @@ using WDT_Assignment2.Data;
 using WDT_Assignment2.Models;
 using WDT_Assignment2.Attributes;
 using WDT_Assignment2.Utilities;
+using Newtonsoft.Json;
+using X.PagedList;
+using SimpleHashing;
 
 namespace WDT_Assignment2.Controllers
 {
@@ -20,6 +23,8 @@ namespace WDT_Assignment2.Controllers
 
         // ReSharper disable once PossibleInvalidOperationException
         private int CustomerID => HttpContext.Session.GetInt32(nameof(Customer.CustomerID)).Value;
+
+        private string UserID => HttpContext.Session.GetString("UserID");
 
         public CustomersController(NwbaContext context)
         {
@@ -38,7 +43,7 @@ namespace WDT_Assignment2.Controllers
         public async Task<IActionResult> Deposit(int id) => View(await _context.Accounts.FindAsync(id));
 
         [HttpPost]
-        public async Task<IActionResult> Deposit(int id, decimal amount, string comment)
+        public async Task<IActionResult> Deposit(int id, decimal amount)
         {
             var account = await _context.Accounts.FindAsync(id);
 
@@ -59,8 +64,6 @@ namespace WDT_Assignment2.Controllers
                 {
                     TransactionType = "D",
                     Amount = amount,
-                    DestinationAccountNumber = id,
-                    Comment = comment,
                     ModifyDate = DateTime.UtcNow
                 });
 
@@ -72,10 +75,10 @@ namespace WDT_Assignment2.Controllers
         public async Task<IActionResult> Withdrawal(int id) => View(await _context.Accounts.FindAsync(id));
 
         [HttpPost]
-        public async Task<IActionResult> Withdrawal (int id, decimal amount, string comment)
+        public async Task<IActionResult> Withdrawal (int id, decimal amount)
         {
             var account = await _context.Accounts.FindAsync(id);
-            const decimal withdrawalFee = 0.1m;
+            decimal withdrawalFee = 0.1m;
             var totalAmount = amount + withdrawalFee;
 
             if (amount <= 0)
@@ -83,7 +86,7 @@ namespace WDT_Assignment2.Controllers
             if (amount.HasMoreThanTwoDecimalPlaces())
                 ModelState.AddModelError(nameof(amount), "Amount cannot have more than 2 decimal places.");
             if (totalAmount > account.Balance)
-                ModelState.AddModelError(nameof(amount), "Amount plus withdrawal fee of $0.10 must be less than account balance.");
+                ModelState.AddModelError(nameof(amount), "Amount plus withdrawal fee of $0.10 must be less that account balance.");
             if (!ModelState.IsValid)
             {
                 ViewBag.Amount = amount;
@@ -96,9 +99,7 @@ namespace WDT_Assignment2.Controllers
                 new Transaction
                 {
                     TransactionType = "W",
-                    Amount = totalAmount,
-                    DestinationAccountNumber = id,
-                    Comment = comment,
+                    Amount = amount,
                     ModifyDate = DateTime.UtcNow
                 });
 
@@ -107,34 +108,33 @@ namespace WDT_Assignment2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> Transfer_a(int id) => View(await _context.Accounts.FindAsync(id));
+        public async Task<IActionResult> Transfer(int id) => View(await _context.Accounts.FindAsync(id));
 
         public async Task<IActionResult> Transfer_Own(int id) => View(await _context.Accounts.FindAsync(id));
 
-        [HttpPost]
-        public async Task<IActionResult> Transfer_Own(int id, decimal amount, string comment)
+        public async Task<IActionResult> Transfer_Own(int id, decimal amount)
         {
             var account = await _context.Accounts.FindAsync(id);
-            const decimal transferFee = 0.2m;
+            decimal transferFee = 0.2m;
             var totalAmount = amount + transferFee;
 
-            int selectedID;
-            if(id % 2 == 0)
+            Account destAccount = null;
+
+            if(account.AccountNumber == _context.Accounts.First().AccountNumber)
             {
-                selectedID = id + 1;
+                destAccount = _context.Accounts.Last();
             }
             else
             {
-                selectedID = id - 1;
+                destAccount = _context.Accounts.First();
             }
-            var destAccount = await _context.Accounts.FindAsync(selectedID);
 
             if (amount <= 0)
                 ModelState.AddModelError(nameof(amount), "Amount must be positive.");
             if (amount.HasMoreThanTwoDecimalPlaces())
                 ModelState.AddModelError(nameof(amount), "Amount cannot have more than 2 decimal places.");
             if (totalAmount > account.Balance)
-                ModelState.AddModelError(nameof(amount), "Amount plus transfer fee of $ 0.20 must be less than than account balance");
+                ModelState.AddModelError(nameof(amount), "Amount plus transfer fee of $0.20 must be less that account balance.");
             if (!ModelState.IsValid)
             {
                 ViewBag.Amount = amount;
@@ -146,87 +146,134 @@ namespace WDT_Assignment2.Controllers
                 new Transaction
                 {
                     TransactionType = "T",
-                    Amount = totalAmount,
-                    DestinationAccountNumber = selectedID,
-                    Comment = comment,
+                    Amount = amount,
                     ModifyDate = DateTime.UtcNow
-                }); ;
+                });
 
+            // update destination account's balance
             destAccount.Balance += amount;
+            // add to destination account's transaction
             destAccount.Transactions.Add(
                 new Transaction
                 {
                     TransactionType = "T",
                     Amount = amount,
-                    DestinationAccountNumber = id,
-                    Comment = comment,
                     ModifyDate = DateTime.UtcNow
+
                 });
 
-            await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> Transfer_ThirdParty(int id) => View(await _context.Accounts.FindAsync(id));
-
-        [HttpPost]
-        public async Task<IActionResult> Transfer_ThirdParty(int id, int destID, decimal amount, string comment)
+        public async Task<IActionResult> AccountSelection()
         {
-            var account = await _context.Accounts.FindAsync(id);
-            const decimal transferFee = 0.2m;
-            var totalAmount = amount + transferFee;
+            var customer = await _context.Customers.FindAsync(CustomerID);
 
-            var destAccount = await _context.Accounts.FindAsync(destID);
+            return View(customer);
+        }
 
-            if (destID.ToString().Length != 4)
-                ModelState.AddModelError(nameof(destID), "Destination Account No. be be 4 digits long.");
-            if (destAccount == null)
-                ModelState.AddModelError(nameof(destID), "Destination Account No. must be a valid account number.");
-            if (amount <= 0)
-                ModelState.AddModelError(nameof(amount), "Amount must be positive.");
-            if (amount.HasMoreThanTwoDecimalPlaces())
-                ModelState.AddModelError(nameof(amount), "Amount cannot have more than 2 decimal places.");
-            if (totalAmount > account.Balance)
-                ModelState.AddModelError(nameof(amount), "Amount plus transfer fee of $ 0.20 must be less than than account balance");
-            if (!ModelState.IsValid)
+        private const string AccountSessionKey = "_AccountSessionKey";
+
+        public async Task<IActionResult> IndexToViewStatements(int accountNumber)
+        {
+            var account = await _context.Accounts.FindAsync(accountNumber);
+
+            if (account == null)
             {
-                ViewBag.Amount = amount;
-                return View(account);
+                return NotFound();
             }
 
-            account.Balance -= totalAmount;
-            account.Transactions.Add(
-                new Transaction
-                {
-                    TransactionType = "T",
-                    Amount = totalAmount,
-                    DestinationAccountNumber = destID,
-                    Comment = comment,
-                    ModifyDate = DateTime.UtcNow
-                });
+            // Store a complex object in the session via JSON serialization. 
+            var accountJson = JsonConvert.SerializeObject(account);
+            HttpContext.Session.SetString(AccountSessionKey, accountJson);
 
-            destAccount.Balance += amount;
-            destAccount.Transactions.Add(
-                new Transaction
-                {
-                    TransactionType = "T",
-                    Amount = totalAmount,
-                    DestinationAccountNumber = id,
-                    Comment = comment,
-                    ModifyDate = DateTime.UtcNow
-                });
+            return RedirectToAction(nameof(ViewStatements));
+
+        }
+
+        public async Task<IActionResult> ViewStatements(int? page = 1)
+        {
+            var accountJson = HttpContext.Session.GetString(AccountSessionKey);
+            if (accountJson == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            var account = JsonConvert.DeserializeObject<Account>(accountJson);
+            ViewBag.Account = account;
+
+            const int pageSize = 4;
+            var pagedList = _context.Transactions.Where(x => x.AccountNumber == account.AccountNumber);
+
+            var pagedListOrdered = await pagedList.OrderByDescending(x => x.TransactionID).ToPagedListAsync(page, pageSize); 
+
+
+            return View(pagedListOrdered);
+        }
+
+
+        public async Task<IActionResult> MyProfile()
+        {
+            var customer = await _context.Customers.FindAsync(CustomerID);
+
+            return View(customer);
+        }
+
+        //public async Task<IActionResult> ChangePassword(string id) => View(await _context.Logins.FindAsync(id));
+
+        [Route("Customers/ChangePasswordView")]
+        public async Task<IActionResult> ChangePassword()
+        {
+            var login = await _context.Logins.FindAsync(UserID);
+
+            return View(login);
+        }
+
+        public async Task<IActionResult> ChangePasswordSet(string password)
+        {
+            var login = await _context.Logins.FindAsync(UserID);
+            if (PBKDF2.Verify(login.Password, password))
+                ModelState.AddModelError(nameof(password), "Cannot change to the same password");
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Password = password;
+                return View("ChangePassword");
+            }
+
+            var passwordHash = PBKDF2.Hash(password);
+            login.Password = passwordHash;
+            login.ModifyDate = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
+
+
         }
 
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> ChangePassword(int id, [Bind("CustomerID,UserID,Password,ModifyDate")] Login login)
+        //{
+        //    if (id != login.CustomerID)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+
+        //            var newLogin = login.Password; 
+        //            _context.Update(login);
+        //            await _context.SaveChangesAsync();
 
 
-
-
-
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "CustomerName", login.CustomerID);
+        //    return View(login);
+        //}
 
 
 

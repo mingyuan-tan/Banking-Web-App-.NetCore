@@ -17,6 +17,7 @@ namespace WDT_Assignment2.Models
 
         [Required, StringLength(1, MinimumLength = 1)]
         [RegularExpression("^(S|C|)$", ErrorMessage = "Invalid Account Type. Enter 'S' for Savings Account and 'C' for Checking Account" )]
+        [Display(Name = "Account Type")]
         public string AccountType { get; set; }
 
         public int CustomerID { get; set; }

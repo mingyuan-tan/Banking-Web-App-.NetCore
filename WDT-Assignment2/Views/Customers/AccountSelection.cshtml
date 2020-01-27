@@ -1,16 +1,12 @@
 ﻿@model Customer
-@using Microsoft.AspNetCore.Http
 @{
     ViewData["Title"] = "Accounts";
 }
 
 <div>
-    @{
-        var userID = @Context.Session.GetString("UserID");
-     } 
-    <h1 class="display-4">Welcome, @Model.CustomerName</h1>
+    <h1 class="display-4">Your Accounts</h1>
 
-    <h3>Accounts for User ID: @userID</h3>
+    <h3>Please select the account you want to view</h3>
     <table class="table">
         <tr>
             <th>@Html.DisplayNameFor(x => x.Accounts[0].AccountNumber)</th>
@@ -25,17 +21,12 @@
                 <td>@Html.DisplayFor(x => account.AccountType)</td>
                 <td>@Html.DisplayFor(x => account.Balance)</td>
                 <td>
-                    <a class="btn btn-primary"
-                       asp-action="Deposit" asp-route-id="@account.AccountNumber">Deposit</a>
+                    <form asp-action="IndexToViewStatements">
+                        <input type="hidden" name="AccountNumber" value="@account.AccountNumber" />
+                        <input type="submit" class="btn btn-primary" value="View Statements" />
+                    </form>
                 </td>
-                <td>
-                    <a class="btn btn-primary"
-                       asp-action="Withdrawal" asp-route-id="@account.AccountNumber">Withdraw</a>
-                </td>
-                <td>
-                    <a class="btn btn-primary"
-                       asp-action="Transfer" asp-route-id="@account.AccountNumber">Transfer</a>
-                </td>
+
             </tr>
         }
     </table>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace WDT_Assignment2.Models
 {
@@ -14,6 +15,7 @@ namespace WDT_Assignment2.Models
         public int CustomerID { get; set; }
 
         [Required(ErrorMessage = "Please enter name"), StringLength(50)]
+        [Display(Name = "Name")]
         public string CustomerName { get; set; }
 
         [StringLength(11, MinimumLength = 11)]
@@ -30,6 +32,7 @@ namespace WDT_Assignment2.Models
         [RegularExpression("^(VIC|NSW|WA|SA|NT|ACT)$", ErrorMessage = "Invalid State. Please choose between VIC, NSW, WA, SA, NT or ACT")]
         public string State { get; set; }
 
+        [Display(Name = "Post Code")]
         [StringLength(4, MinimumLength = 4)]
         [RegularExpression("^(0[289][0-9]{2})|([1345689][0-9]{3})|(2[0-8][0-9]{2})|(290[0-9])|(291[0-4])|(7[0-4][0-9]{2})|(7[8-9][0-9]{2})$", ErrorMessage = "Please enter a valid post code")]
         public string PostCode { get; set; }
@@ -43,9 +46,11 @@ namespace WDT_Assignment2.Models
         public string Phone { get; set; }
 
         // Navigation Property - Customer has many accounts 
-        public virtual List<Account> Accounts { get; set;} 
+        [JsonIgnore]
+        public virtual List<Account> Accounts { get; set;}
 
         // Denotes 1 - 1 relationship between Customer and Login 
+        [JsonIgnore]
         public virtual Login Login { get; set; }
     }
 }
