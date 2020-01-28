@@ -73,7 +73,7 @@ namespace WDT_Assignment2.Data
                 new Account
                 {
                     AccountNumber = 4101,
-                    AccountType = "S",
+                    AccountType = "C",
                     CustomerID = 2100,
                     Balance = 500
                 },
@@ -157,18 +157,60 @@ namespace WDT_Assignment2.Data
                    City = "Melbourne", 
                    State = "VIC", 
                    PostCode = "3008",
-                   Phone = "0421937067"
+                   Phone = "0421222065"
+               },
+               new Payee
+               {
+                   PayeeID = 5001,
+                   PayeeName = "Telstra",
+                   Address = "242 Exhibition St",
+                   City = "Melbourne",
+                   State = "VIC",
+                   PostCode = "3000",
+                   Phone = "0427343061"
+               },
+               new Payee
+               {
+                   PayeeID = 5002,
+                   PayeeName = "Vodafone",
+                   Address = "250 Ingles St",
+                   City = "Port Melbourne",
+                   State = "VIC",
+                   PostCode = "3207",
+                   Phone = "0427343777"
                },
                 new Payee
                 {
-                    PayeeID = 5001,
+                    PayeeID = 5003,
                     PayeeName = "Fitness First",
                     Address = "715 Bondi Junction",
                     City = "Sydney",
                     State = "NSW",
                     PostCode = "1355",
                     Phone = "0421937067"
-                });
+                },
+                new Payee
+                {
+                    PayeeID = 5004,
+                    PayeeName = "RMIT University",
+                    Address = "124 La Trobe St",
+                    City = "Melbourne",
+                    State = "VIC",
+                    PostCode = "3000",
+                    Phone = "99252000"
+                },
+                new Payee
+                {
+                    PayeeID = 5005,
+                    PayeeName = "University of Melbourne",
+                    Address = "Parkville",
+                    City = "Sydney",
+                    State = "VIC",
+                    PostCode = "1355",
+                    Phone = "0421955555"
+                }
+
+                );
 
             context.SaveChanges();
         }

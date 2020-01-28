@@ -40,7 +40,7 @@ namespace WDT_Assignment2.Models
         public string Comment { get; set; }
 
         [DataType(DataType.Date)]
-        [Required, StringLength(15)]
+        [Required]
         public DateTime ModifyDate { get; set; }
 
     }

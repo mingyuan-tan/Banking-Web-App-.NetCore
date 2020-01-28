@@ -1,0 +1,57 @@
+﻿@model IEnumerable<WDT_Assignment2.Models.BillPay>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>All Scheduled Payments</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Account)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Payee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ScheduleDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Period)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Account.AccountNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Payee.PayeeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ScheduleDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Period)
+                </td>
+                <td>
+                    <a asp-action="ModifyBillPay" asp-route-id="@item.BillPayID">Modify</a> |
+                    <a asp-action="Delete" asp-route-id="@item.BillPayID">Cancel payment</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

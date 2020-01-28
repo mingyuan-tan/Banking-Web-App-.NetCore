@@ -359,6 +359,93 @@ namespace WDT_Assignment2.Controllers
         }
 
 
+
+        public IActionResult AllScheduledPayments()
+        {
+            List<BillPay> BillPays = new List<BillPay>();
+
+            var accounts = _context.Accounts.Include(a => a.BillPays);
+
+            foreach (var a in accounts)
+            {
+                foreach (var b in a.BillPays)
+                {
+                    BillPays.Add(b);
+                }
+            }
+
+            return View(BillPays);
+
+        }
+
+        public async Task<IActionResult> ModifyBillPay(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var billPay = await _context.BillPays.FindAsync(id);
+            if (billPay == null)
+            {
+                return NotFound();
+            }
+
+            var customer = await _context.Customers.FindAsync(CustomerID);
+
+            ViewData["Periods"] = new BillPayViewModel().Periods;
+            ViewData["AccountNumber"] = new SelectList(customer.Accounts, "AccountNumber", "AccountNumber");
+            ViewData["PayeeID"] = new SelectList(_context.Payees, "PayeeID", "PayeeName", billPay.PayeeID);
+            return View(billPay);
+        }
+
+        private bool BillPayExists(int id)
+        {
+            return _context.BillPays.Any(e => e.BillPayID == id);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ModifyBillPay(int id, [Bind("BillPayID,AccountNumber,PayeeID,Amount,ScheduleDate,Period")] BillPay billPay)
+        {
+            if (id != billPay.BillPayID)
+            {
+                return NotFound();
+            }
+
+             
+
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+
+                    //var date = billPay.ScheduleDate;  
+                    _context.Update(billPay);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!BillPayExists(billPay.BillPayID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+           // ViewData["AccountNumber"] = new SelectList(_context.Accounts, "AccountNumber", "AccountType", billPay.AccountNumber);
+           // ViewData["PayeeID"] = new SelectList(_context.Payees, "PayeeID", "PayeeName", billPay.PayeeID);
+            return View(billPay);
+        }
+
+
+
+
         //-------------------------------------------- METHODS BELOW ARE AUTO-CREATED ------------------------------------------------//
 
 
