@@ -69,14 +69,14 @@ namespace WDT_Assignment2.Migrations
                 name: "Logins",
                 columns: table => new
                 {
-                    CustomerID = table.Column<int>(nullable: false),
                     UserID = table.Column<string>(maxLength: 50, nullable: false),
+                    CustomerID = table.Column<int>(nullable: false),
                     Password = table.Column<string>(maxLength: 64, nullable: false),
                     ModifyDate = table.Column<DateTime>(maxLength: 8, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Logins", x => x.CustomerID);
+                    table.PrimaryKey("PK_Logins", x => x.UserID);
                     table.CheckConstraint("CH_Login_UserID", "len(UserID) = 8");
                     table.CheckConstraint("CH_Login_Password", "len(Password) = 64");
                     table.ForeignKey(
@@ -95,7 +95,7 @@ namespace WDT_Assignment2.Migrations
                     AccountNumber = table.Column<int>(nullable: false),
                     PayeeID = table.Column<int>(nullable: false),
                     Amount = table.Column<decimal>(type: "Money", nullable: false),
-                    ScheduleDate = table.Column<DateTime>(maxLength: 15, nullable: false),
+                    ScheduleDate = table.Column<DateTime>(nullable: false),
                     Period = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -127,7 +127,7 @@ namespace WDT_Assignment2.Migrations
                     DestinationAccountNumber = table.Column<int>(nullable: true),
                     Amount = table.Column<decimal>(type: "Money", nullable: false),
                     Comment = table.Column<string>(maxLength: 255, nullable: true),
-                    ModifyDate = table.Column<DateTime>(maxLength: 15, nullable: false)
+                    ModifyDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -162,6 +162,12 @@ namespace WDT_Assignment2.Migrations
                 name: "IX_BillPays_PayeeID",
                 table: "BillPays",
                 column: "PayeeID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Logins_CustomerID",
+                table: "Logins",
+                column: "CustomerID",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transactions_AccountNumber",

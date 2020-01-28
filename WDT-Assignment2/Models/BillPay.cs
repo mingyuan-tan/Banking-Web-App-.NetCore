@@ -33,7 +33,7 @@ namespace WDT_Assignment2.Models
         public decimal Amount { get; set; }
         
         [DataType(DataType.Date)]
-        [Required, StringLength(15)]
+        [Required]
         public DateTime ScheduleDate { get; set; }
 
         [RegularExpression("^(M|Q|Y|S)$", ErrorMessage = "Invalid Period. Please enter 'M' for Monthly, 'Q' for Quarterly, 'Y' for Annually, or 'S' for Once Off")]

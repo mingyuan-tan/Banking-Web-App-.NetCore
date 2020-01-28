@@ -390,10 +390,15 @@ namespace WDT_Assignment2.Controllers
                 return NotFound();
             }
 
+             
+
+
             if (ModelState.IsValid)
             {
                 try
                 {
+
+                    //var date = billPay.ScheduleDate;  
                     _context.Update(billPay);
                     await _context.SaveChangesAsync();
                 }
@@ -410,8 +415,8 @@ namespace WDT_Assignment2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AccountNumber"] = new SelectList(_context.Accounts, "AccountNumber", "AccountType", billPay.AccountNumber);
-            ViewData["PayeeID"] = new SelectList(_context.Payees, "PayeeID", "PayeeName", billPay.PayeeID);
+           // ViewData["AccountNumber"] = new SelectList(_context.Accounts, "AccountNumber", "AccountType", billPay.AccountNumber);
+           // ViewData["PayeeID"] = new SelectList(_context.Payees, "PayeeID", "PayeeName", billPay.PayeeID);
             return View(billPay);
         }
 

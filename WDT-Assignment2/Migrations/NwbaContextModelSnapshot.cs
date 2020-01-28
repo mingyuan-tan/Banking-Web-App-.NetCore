@@ -64,8 +64,7 @@ namespace WDT_Assignment2.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ScheduleDate")
-                        .HasColumnType("datetime2")
-                        .HasMaxLength(15);
+                        .HasColumnType("datetime2");
 
                     b.HasKey("BillPayID");
 
@@ -119,6 +118,10 @@ namespace WDT_Assignment2.Migrations
 
             modelBuilder.Entity("WDT_Assignment2.Models.Login", b =>
                 {
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
                     b.Property<int>("CustomerID")
                         .HasColumnType("int");
 
@@ -131,12 +134,10 @@ namespace WDT_Assignment2.Migrations
                         .HasColumnType("nvarchar(64)")
                         .HasMaxLength(64);
 
-                    b.Property<string>("UserID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                    b.HasKey("UserID");
 
-                    b.HasKey("CustomerID");
+                    b.HasIndex("CustomerID")
+                        .IsUnique();
 
                     b.ToTable("Logins");
 
@@ -203,8 +204,7 @@ namespace WDT_Assignment2.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ModifyDate")
-                        .HasColumnType("datetime2")
-                        .HasMaxLength(15);
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("TransactionType")
                         .IsRequired()
