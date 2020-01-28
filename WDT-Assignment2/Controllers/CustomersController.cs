@@ -173,7 +173,7 @@ namespace WDT_Assignment2.Controllers
                     DestinationAccountNumber = selectedID,
                     Comment = comment,
                     ModifyDate = DateTime.UtcNow
-                }); ;
+                });
 
             destAccount.Balance += amount;
             destAccount.Transactions.Add(
@@ -433,6 +433,34 @@ namespace WDT_Assignment2.Controllers
            // ViewData["AccountNumber"] = new SelectList(_context.Accounts, "AccountNumber", "AccountType", billPay.AccountNumber);
            // ViewData["PayeeID"] = new SelectList(_context.Payees, "PayeeID", "PayeeName", billPay.PayeeID);
             return View(billPay);
+        }
+
+        public async void PayBillPay(int? id)
+        {
+            var account = await _context.Accounts.FindAsync(id);
+
+            foreach (var billPay in account.BillPays)
+            {
+                if (billPay.ScheduleDate == DateTime.Today)
+                {
+                    account.Balance -= billPay.Amount;
+                    account.Transactions.Add(
+                        new Transaction
+                        {
+                            TransactionType = "B",
+                            Amount = billPay.Amount,
+                            DestinationAccountNumber = billPay.PayeeID,
+                            Comment = "Scheduled payment to " + billPay.Payee,
+                            ModifyDate = DateTime.UtcNow
+                        });
+
+                    if (billPay.Period == "S")
+                    {
+                        _context.BillPays.Remove(billPay);
+                    }
+                }
+            }
+            await _context.SaveChangesAsync();
         }
 
 
