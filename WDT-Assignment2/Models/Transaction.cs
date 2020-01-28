@@ -13,11 +13,13 @@ namespace WDT_Assignment2.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required, Range(1000, 9999)]
+        [Display(Name = "Transaction ID")]
         public int TransactionID { get; set; }
 
         [Required]
         [RegularExpression("^(D|W|T|S|B)$", ErrorMessage = "Invalid Transaction Type. Enter 'D' for Deposit, 'W' for Withdrawal," +
             " 'T' for Transfer, 'S' for Service Charge, and 'B' for BillPay")]
+        [Display(Name = "Transaction Type")]
         public string TransactionType { get; set; }
 
         [Required]
@@ -26,6 +28,7 @@ namespace WDT_Assignment2.Models
         public virtual Account Account { get; set; }
 
         [ForeignKey("DestinationAccount")]
+        [Display(Name = " Destination Account Number")]
         public int? DestinationAccountNumber { get; set; }
 
         [JsonIgnore]
@@ -41,6 +44,7 @@ namespace WDT_Assignment2.Models
 
         [DataType(DataType.Date)]
         [Required]
+        [Display(Name = "Last Modified")]
         public DateTime ModifyDate { get; set; }
 
     }

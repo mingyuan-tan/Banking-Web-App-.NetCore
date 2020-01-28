@@ -16,12 +16,14 @@ namespace WDT_Assignment2.Models
         public int BillPayID { get; set; }
 
         [ForeignKey("Account")]
+        [Display(Name = "Account Number")]
         public int AccountNumber { get; set; }
 
         [JsonIgnore]
         public virtual Account Account { get; set; }
 
         [ForeignKey("Payee")]
+        [Display(Name = "Payee")]
         public int PayeeID { get; set; }
 
         [JsonIgnore]
@@ -34,9 +36,11 @@ namespace WDT_Assignment2.Models
         
         [DataType(DataType.Date)]
         [Required]
+        [Display(Name = "Payment Start Date")]
         public DateTime ScheduleDate { get; set; }
 
         [RegularExpression("^(M|Q|Y|S)$", ErrorMessage = "Invalid Period. Please enter 'M' for Monthly, 'Q' for Quarterly, 'Y' for Annually, or 'S' for Once Off")]
+        [Display(Name = "Payment Intervals")]
         public string Period { get; set; }
 
     }
