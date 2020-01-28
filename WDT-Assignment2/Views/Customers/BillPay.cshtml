@@ -18,7 +18,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="PayeeID" class="control-label"></label>
-                <input asp-for="PayeeID" class="form-control"  />
+                <select asp-for="PayeeID" class="form-control" asp-items="ViewBag.PayeeID"></select>
                 <span asp-validation-for="PayeeID" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -27,8 +27,8 @@
                 <span asp-validation-for="BillPay.Amount" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="BillPay.ScheduleDate" class="control-label"></label>
-                <input asp-for="BillPay.ScheduleDate" class="form-control" />
+                <label asp-for="BillPay.ScheduleDate" class="control-label">Scheduled Date</label>
+                <input type="date" asp-for="BillPay.ScheduleDate" class="form-control" />
                 <span asp-validation-for="BillPay.ScheduleDate" class="text-danger"></span>
             </div>
             <div class="form-group">

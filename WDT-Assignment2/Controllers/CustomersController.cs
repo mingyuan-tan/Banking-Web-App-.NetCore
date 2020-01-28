@@ -337,12 +337,11 @@ namespace WDT_Assignment2.Controllers
 
         public async Task<IActionResult> BillPay()
         {
-            
-
             var customer = await _context.Customers.FindAsync(CustomerID);
             List<Account> accounts = new List<Account>();
 
             ViewData["AccountNumber"] = new SelectList(customer.Accounts, "AccountNumber", "AccountNumber");
+            ViewData["PayeeID"] = new SelectList(_context.Payees, "PayeeID", "PayeeName");
 
             foreach (var account in customer.Accounts)
             {
@@ -357,8 +356,6 @@ namespace WDT_Assignment2.Controllers
                     Accounts = accounts
                 });
         }
-
-
 
         public IActionResult AllScheduledPayments()
         {
@@ -375,7 +372,6 @@ namespace WDT_Assignment2.Controllers
             }
 
             return View(BillPays);
-
         }
 
         public async Task<IActionResult> ModifyBillPay(int? id)
@@ -412,10 +408,6 @@ namespace WDT_Assignment2.Controllers
             {
                 return NotFound();
             }
-
-             
-
-
             if (ModelState.IsValid)
             {
                 try
