@@ -85,14 +85,21 @@ namespace WDT_Assignment2.Controllers
         {
             var account = await _context.Accounts.FindAsync(id);
             const decimal withdrawalFee = 0.1m;
-            var totalAmount = amount + withdrawalFee;
+            var totalAmount = amount;
 
-            if (amount <= 0)
-                ModelState.AddModelError(nameof(amount), "Amount must be positive.");
-            if (amount.HasMoreThanTwoDecimalPlaces())
-                ModelState.AddModelError(nameof(amount), "Amount cannot have more than 2 decimal places.");
-            if (totalAmount > account.Balance)
-                ModelState.AddModelError(nameof(amount), "Amount plus withdrawal fee of $0.10 must be less than account balance.");
+            if (account.Transactions.Count >= 4)
+            {
+                totalAmount = amount + withdrawalFee;
+            }
+
+            //if (amount <= 0)
+            //    ModelState.AddModelError(nameof(amount), "Amount must be positive.");
+            //if (amount.HasMoreThanTwoDecimalPlaces())
+            //    ModelState.AddModelError(nameof(amount), "Amount cannot have more than 2 decimal places.");
+            //if (totalAmount > account.Balance)
+            //    ModelState.AddModelError(nameof(amount), "Amount plus withdrawal fee of $0.10 must be less than account balance.");
+            if (amount <= 0 || amount.HasMoreThanTwoDecimalPlaces() || totalAmount > account.Balance)
+                ModelState.AddModelError(nameof(amount), "Invalid Amount");
             if (!ModelState.IsValid)
             {
                 ViewBag.Amount = amount;
@@ -125,7 +132,12 @@ namespace WDT_Assignment2.Controllers
         {
             var account = await _context.Accounts.FindAsync(id);
             const decimal transferFee = 0.2m;
-            var totalAmount = amount + transferFee;
+            var totalAmount = amount;
+
+            if (account.Transactions.Count >= 4)
+            {
+                totalAmount = amount + transferFee;
+            }
 
             int selectedID;
             if (id % 2 == 0)
@@ -138,12 +150,14 @@ namespace WDT_Assignment2.Controllers
             }
             var destAccount = await _context.Accounts.FindAsync(selectedID);
 
-            if (amount <= 0)
-                ModelState.AddModelError(nameof(amount), "Amount must be positive.");
-            if (amount.HasMoreThanTwoDecimalPlaces())
-                ModelState.AddModelError(nameof(amount), "Amount cannot have more than 2 decimal places.");
-            if (totalAmount > account.Balance)
-                ModelState.AddModelError(nameof(amount), "Amount plus transfer fee of $ 0.20 must be less than than account balance");
+            //if (amount <= 0)
+            //    ModelState.AddModelError(nameof(amount), "Amount must be positive.");
+            //if (amount.HasMoreThanTwoDecimalPlaces())
+            //    ModelState.AddModelError(nameof(amount), "Amount cannot have more than 2 decimal places.");
+            //if (totalAmount > account.Balance)
+            //    ModelState.AddModelError(nameof(amount), "Amount plus transfer fee of $ 0.20 must be less than than account balance");
+            if (amount <= 0 || amount.HasMoreThanTwoDecimalPlaces() || totalAmount > account.Balance)
+                ModelState.AddModelError(nameof(amount), "Invalid amount.");
             if (!ModelState.IsValid)
             {
                 ViewBag.Amount = amount;
@@ -184,20 +198,29 @@ namespace WDT_Assignment2.Controllers
         {
             var account = await _context.Accounts.FindAsync(id);
             const decimal transferFee = 0.2m;
-            var totalAmount = amount + transferFee;
+            var totalAmount = amount;
 
             var destAccount = await _context.Accounts.FindAsync(destID);
 
-            if (destID.ToString().Length != 4)
-                ModelState.AddModelError(nameof(destID), "Destination Account No. be be 4 digits long.");
-            if (destAccount == null)
-                ModelState.AddModelError(nameof(destID), "Destination Account No. must be a valid account number.");
-            if (amount <= 0)
-                ModelState.AddModelError(nameof(amount), "Amount must be positive.");
-            if (amount.HasMoreThanTwoDecimalPlaces())
-                ModelState.AddModelError(nameof(amount), "Amount cannot have more than 2 decimal places.");
-            if (totalAmount > account.Balance)
-                ModelState.AddModelError(nameof(amount), "Amount plus transfer fee of $ 0.20 must be less than than account balance");
+            if (account.Transactions.Count >= 4)
+            {
+                totalAmount = amount + transferFee;
+            }
+
+            //if (destID.ToString().Length != 4)
+            //    ModelState.AddModelError(nameof(destID), "Destination Account No. be be 4 digits long.");
+            //if (destAccount == null)
+            //    ModelState.AddModelError(nameof(destID), "Destination Account No. must be a valid account number.");
+            //if (amount <= 0)
+            //    ModelState.AddModelError(nameof(amount), "Amount must be positive.");
+            //if (amount.HasMoreThanTwoDecimalPlaces())
+            //    ModelState.AddModelError(nameof(amount), "Amount cannot have more than 2 decimal places.");
+            //if (totalAmount > account.Balance)
+            //    ModelState.AddModelError(nameof(amount), "Amount plus transfer fee of $ 0.20 must be less than than account balance");
+            if (destID.ToString().Length != 4 || destAccount == null)
+                ModelState.AddModelError(nameof(destID), "Invalid account number.");
+            if (amount <= 0 || amount.HasMoreThanTwoDecimalPlaces() || totalAmount > account.Balance)
+                ModelState.AddModelError(nameof(amount), "Invalid Amount.");
             if (!ModelState.IsValid)
             {
                 ViewBag.Amount = amount;
