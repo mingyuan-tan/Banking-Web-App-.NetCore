@@ -418,9 +418,9 @@ namespace WDT_Assignment2.Controllers
             var account = await _context.Accounts.FindAsync(accountNumber);
 
             if (amount <= 0 || amount.HasMoreThanTwoDecimalPlaces() || amount > account.Balance)
-                ModelState.AddModelError(nameof(amount), "Invalid amount.");
+                ModelState.AddModelError(nameof(amount), "Invalid amount");
             if (scheduleDate < DateTime.Today)
-                ModelState.AddModelError(nameof(scheduleDate), "Invalid date.");
+                ModelState.AddModelError(nameof(scheduleDate), "Invalid date");
             if (!ModelState.IsValid)
             {
                 List<Account> accounts = new List<Account>();
@@ -544,37 +544,6 @@ namespace WDT_Assignment2.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(AllScheduledPayments));
 
-            //if (id != billPay.BillPayID)
-            //{
-            //    return NotFound();
-            //}
-            //if (ModelState.IsValid)
-            //{
-            //    try
-            //    {
-
-            //        //var date = billPay.ScheduleDate;  
-            //        _context.Update(billPay);
-            //        await _context.SaveChangesAsync();
-            //    }
-            //    catch (DbUpdateConcurrencyException)
-            //    {
-            //        if (!BillPayExists(billPay.BillPayID))
-            //        {
-            //            return NotFound();
-            //        }
-            //        else
-            //        {
-            //            throw;
-            //        }
-            //    }
-
-
-
-            //    return RedirectToAction(nameof(AllScheduledPayments));
-            //}
-
-            //return View(billPay);
         }
 
         public async Task<IActionResult> DeleteBillPay(int id)
