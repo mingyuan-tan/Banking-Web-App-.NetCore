@@ -502,37 +502,79 @@ namespace WDT_Assignment2.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ModifyBillPay(int id, [Bind("BillPayID,AccountNumber,PayeeID,Amount,ScheduleDate,Period")] BillPay billPay)
+        public async Task<IActionResult> ModifyBillPay(int billpayID, int accountNumber, int payeeID, decimal amount, DateTime scheduleDate, string period)
         {
-            if (id != billPay.BillPayID)
-            {
-                return NotFound();
-            }
-            if (ModelState.IsValid)
-            {
-                try
-                {
+            var customer = await _context.Customers.FindAsync(CustomerID);
+            var account = await _context.Accounts.FindAsync(accountNumber);
+            var billPay = await _context.BillPays.FindAsync(billpayID);
 
-                    //var date = billPay.ScheduleDate;  
-                    _context.Update(billPay);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
+            if (amount <= 0 || amount.HasMoreThanTwoDecimalPlaces() || amount > account.Balance)
+                ModelState.AddModelError(nameof(amount), "Invalid amount");
+            if (scheduleDate < DateTime.Today)
+                ModelState.AddModelError(nameof(scheduleDate), "Invalid date");
+
+            ViewData["Periods"] = new BillPayViewModel().Periods;
+            ViewData["AccountNumber"] = new SelectList(customer.Accounts, "AccountNumber", "AccountNumber");
+            ViewData["PayeeID"] = new SelectList(_context.Payees, "PayeeID", "PayeeName", billPay.PayeeID);
+
+
+            if (!ModelState.IsValid)
+            {
+                List<Account> accounts = new List<Account>();
+
+                ViewData["AccountNumber"] = new SelectList(customer.Accounts, "AccountNumber", "AccountNumber");
+                ViewData["PayeeID"] = new SelectList(_context.Payees, "PayeeID", "PayeeName");
+
+                foreach (var acc in customer.Accounts)
                 {
-                    if (!BillPayExists(billPay.BillPayID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    accounts.Add(acc);
                 }
-                return RedirectToAction(nameof(AllScheduledPayments));
+
+                ViewBag.Amount = amount;
+                ViewBag.ScheduleDate = scheduleDate;
+                return View(billPay);
             }
-           // ViewData["AccountNumber"] = new SelectList(_context.Accounts, "AccountNumber", "AccountType", billPay.AccountNumber);
-           // ViewData["PayeeID"] = new SelectList(_context.Payees, "PayeeID", "PayeeName", billPay.PayeeID);
-            return View(billPay);
+
+            billPay.AccountNumber = accountNumber;
+            billPay.PayeeID = payeeID;
+            billPay.Amount = amount;
+            billPay.ScheduleDate = scheduleDate;
+            billPay.Period = period;
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(AllScheduledPayments));
+
+            //if (id != billPay.BillPayID)
+            //{
+            //    return NotFound();
+            //}
+            //if (ModelState.IsValid)
+            //{
+            //    try
+            //    {
+
+            //        //var date = billPay.ScheduleDate;  
+            //        _context.Update(billPay);
+            //        await _context.SaveChangesAsync();
+            //    }
+            //    catch (DbUpdateConcurrencyException)
+            //    {
+            //        if (!BillPayExists(billPay.BillPayID))
+            //        {
+            //            return NotFound();
+            //        }
+            //        else
+            //        {
+            //            throw;
+            //        }
+            //    }
+
+
+
+            //    return RedirectToAction(nameof(AllScheduledPayments));
+            //}
+
+            //return View(billPay);
         }
 
         public async Task<IActionResult> DeleteBillPay(int id)
