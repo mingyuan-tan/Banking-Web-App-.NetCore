@@ -496,9 +496,7 @@ namespace WDT_Assignment2.Controllers
             return View(billPay);
         }
 
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CancelPayment(int id)
+        public async Task<IActionResult> DeleteBillPay(int id)
         {
             var billPay = await _context.BillPays.FindAsync(id);
             _context.BillPays.Remove(billPay);
