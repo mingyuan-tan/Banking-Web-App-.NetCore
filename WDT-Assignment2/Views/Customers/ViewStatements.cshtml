@@ -20,14 +20,35 @@
             </tr>
             @foreach (var transaction in Model)
             {
-                <tr>
-                    <td>@Html.DisplayFor(x => transaction.TransactionID)</td>
-                    <td>@Html.DisplayFor(x => transaction.TransactionType)</td>
-                    <td>@Html.DisplayFor(x => transaction.DestinationAccountNumber)</td>
-                    <td>@Html.DisplayFor(x => transaction.Amount)</td>
-                    <td>@Html.DisplayFor(x => transaction.Comment)</td>
-                    <td>@Html.DisplayFor(x => transaction.ModifyDate)</td>
-                </tr>
+        <tr>
+            <td>@Html.DisplayFor(x => transaction.TransactionID)</td>
+            @*<td>@Html.DisplayFor(x => transaction.TransactionType)</td>*@
+            @if (transaction.TransactionType == "D")
+            {
+                <td>Deposit</td>
+            }
+            else if (transaction.TransactionType == "W")
+            {
+                <td>Withdrawal</td>
+            }
+            else if (transaction.TransactionType == "T")
+            {
+                <td>Transfer</td>
+            }
+            else if (transaction.TransactionType == "S")
+            {
+                <td>Service Charge</td>
+            }
+            else if (transaction.TransactionType == "B")
+            {
+                <td>BillPay</td>
+            }
+
+            <td>@Html.DisplayFor(x => transaction.DestinationAccountNumber)</td>
+            <td>@Html.DisplayFor(x => transaction.Amount)</td>
+            <td>@Html.DisplayFor(x => transaction.Comment)</td>
+            <td>@Html.DisplayFor(x => transaction.ModifyDate)</td>
+        </tr>
             }
         </table>
 
