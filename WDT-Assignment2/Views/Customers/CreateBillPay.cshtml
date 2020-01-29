@@ -4,37 +4,38 @@
     ViewData["Title"] = "AccountNumber";
 }
 
-<h1 class="display-4">Pay Your Bills</h1>
-<h3>Enter the details of your new scheduled payment</h3>
+<h1>BillPay</h1>
 
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="CreateBillPay">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
-                <label asp-for="AccountNumber" class="control-label"></label>
+                <label asp-for="AccountNumber" class="control-label">Account Number</label>
                 <select asp-for="AccountNumber" class="form-control" asp-items="ViewBag.AccountNumber"></select>
             </div>
             <div class="form-group">
-                <label asp-for="PayeeID" class="control-label"></label>
+                <label asp-for="PayeeID" class="control-label">Payee</label>
                 <select asp-for="PayeeID" class="form-control" asp-items="ViewBag.PayeeID"></select>
                 <span asp-validation-for="PayeeID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="BillPay.Amount" class="control-label"></label>
-                <input asp-for="BillPay.Amount" class="form-control" />
+                <input asp-for="BillPay.Amount" name="Amount" class="form-control" />
+                @Html.ValidationMessage("amount", new { @class = "text-danger"})
                 <span asp-validation-for="BillPay.Amount" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="BillPay.ScheduleDate" class="control-label"></label>
-                <input asp-for="BillPay.ScheduleDate" class="form-control" />
+                <label asp-for="BillPay.ScheduleDate" class="control-label">Scheduled Date</label>
+                <input type="date" asp-for="BillPay.ScheduleDate" name="ScheduleDate" class="form-control" />
+                @Html.ValidationMessage("scheduleDate", new { @class = "text-danger" })
                 <span asp-validation-for="BillPay.ScheduleDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="BillPay.Period" class="control-label"></label>
-                <select asp-for="BillPay.Period" class="form-control" asp-items="Model.Periods" ></select>
+                <select asp-for="BillPay.Period" name="Period" class="form-control" asp-items="Model.Periods" ></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Confirm new payment" class="btn btn-primary" />

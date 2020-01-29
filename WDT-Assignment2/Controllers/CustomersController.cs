@@ -173,7 +173,7 @@ namespace WDT_Assignment2.Controllers
                     DestinationAccountNumber = selectedID,
                     Comment = comment,
                     ModifyDate = DateTime.UtcNow
-                }); ;
+                });
 
             destAccount.Balance += amount;
             destAccount.Transactions.Add(
@@ -392,8 +392,6 @@ namespace WDT_Assignment2.Controllers
 
         public async Task<IActionResult> CreateBillPay()
         {
-            
-
             var customer = await _context.Customers.FindAsync(CustomerID);
             List<Account> accounts = new List<Account>();
 
@@ -409,12 +407,55 @@ namespace WDT_Assignment2.Controllers
                 new BillPayViewModel
                 {
                     Customer = customer, 
-                    BillPay = new BillPay(), 
                     Accounts = accounts
                 });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateBillPay(int accountNumber, int payeeID, decimal amount, DateTime scheduleDate, string period)
+        {
+            var customer = await _context.Customers.FindAsync(CustomerID);
+            var account = await _context.Accounts.FindAsync(accountNumber);
 
+            if (amount <= 0 || amount.HasMoreThanTwoDecimalPlaces() || amount > account.Balance)
+                ModelState.AddModelError(nameof(amount), "Invalid amount.");
+            if (scheduleDate < DateTime.Today)
+                ModelState.AddModelError(nameof(scheduleDate), "Invalid date.");
+            if (!ModelState.IsValid)
+            {
+                List<Account> accounts = new List<Account>();
+
+                ViewData["AccountNumber"] = new SelectList(customer.Accounts, "AccountNumber", "AccountNumber");
+                ViewData["PayeeID"] = new SelectList(_context.Payees, "PayeeID", "PayeeName");
+
+                foreach (var acc in customer.Accounts)
+                {
+                    accounts.Add(acc);
+                }
+
+                ViewBag.Amount = amount;
+                ViewBag.ScheduleDate = scheduleDate;
+                return View(new BillPayViewModel
+                {
+                    Customer = customer,
+                    Accounts = accounts
+                });
+                //return View();
+            }
+
+            _context.BillPays.Add(
+                new BillPay
+                {
+                    AccountNumber = accountNumber,
+                    PayeeID = payeeID,
+                    Amount = amount,
+                    ScheduleDate = scheduleDate,
+                    Period = period
+                });
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(AllScheduledPayments));
+        }
 
         public IActionResult AllScheduledPayments()
         {
@@ -431,7 +472,6 @@ namespace WDT_Assignment2.Controllers
             }
 
             return View(BillPays);
-
         }
 
         public async Task<IActionResult> ModifyBillPay(int? id)
@@ -468,7 +508,6 @@ namespace WDT_Assignment2.Controllers
             {
                 return NotFound();
             }
-
             if (ModelState.IsValid)
             {
                 try

@@ -19,21 +19,21 @@ namespace WDT_Assignment2
 
             using (var scope = host.Services.CreateScope())
             {
-                var services = scope.ServiceProvider; 
+                var services = scope.ServiceProvider;
 
                 try
-                {  
+                {
                     SeedData.Initialize(services);
-                    
+
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error has occured seeding the DB"); 
+                    logger.LogError(ex, "An error has occured seeding the DB");
                 }
             }
 
-            host.Run(); 
+            host.Run();
         }
 
         // This starts the web server and runs the application 
@@ -44,6 +44,10 @@ namespace WDT_Assignment2
 
                     // Start instructions present in Startup.cs 
                     webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureServices(services =>
+                {
+                    services.AddHostedService<BillPayHostedService>();
                 });
     }
 }
