@@ -131,7 +131,6 @@ namespace WDT_Assignment2.Data
             context.BillPays.AddRange(
                 new BillPay
                 {
-                    BillPayID = 1000, 
                     AccountNumber = 4100, 
                     PayeeID = 5000, 
                     Amount = 44.90m, 
@@ -140,7 +139,6 @@ namespace WDT_Assignment2.Data
                 },
                 new BillPay
                 {
-                    BillPayID = 1001,
                     AccountNumber = 4100,
                     PayeeID = 5001,
                     Amount = 299.95m,
@@ -208,9 +206,7 @@ namespace WDT_Assignment2.Data
                     State = "VIC",
                     PostCode = "1355",
                     Phone = "0421955555"
-                }
-
-                );
+                });
 
             context.SaveChanges();
         }

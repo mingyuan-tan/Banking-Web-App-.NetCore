@@ -49,7 +49,9 @@ namespace WDT_Assignment2.Migrations
             modelBuilder.Entity("WDT_Assignment2.Models.BillPay", b =>
                 {
                     b.Property<int>("BillPayID")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AccountNumber")
                         .HasColumnType("int");

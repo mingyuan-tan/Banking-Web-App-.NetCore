@@ -91,7 +91,8 @@ namespace WDT_Assignment2.Migrations
                 name: "BillPays",
                 columns: table => new
                 {
-                    BillPayID = table.Column<int>(nullable: false),
+                    BillPayID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     AccountNumber = table.Column<int>(nullable: false),
                     PayeeID = table.Column<int>(nullable: false),
                     Amount = table.Column<decimal>(type: "Money", nullable: false),

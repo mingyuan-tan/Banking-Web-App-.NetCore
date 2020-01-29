@@ -10,7 +10,7 @@ using WDT_Assignment2.Data;
 namespace WDT_Assignment2.Migrations
 {
     [DbContext(typeof(NwbaContext))]
-    [Migration("20200128000110_InitialCreate")]
+    [Migration("20200129065930_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,7 +51,9 @@ namespace WDT_Assignment2.Migrations
             modelBuilder.Entity("WDT_Assignment2.Models.BillPay", b =>
                 {
                     b.Property<int>("BillPayID")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AccountNumber")
                         .HasColumnType("int");
