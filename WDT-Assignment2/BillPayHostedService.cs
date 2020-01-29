@@ -56,35 +56,39 @@ namespace WDT_Assignment2
                 {
                     var account = await dbContext.Accounts.FindAsync(billPay.AccountNumber);
 
-                    if (billPay.ScheduleDate == DateTime.Today)
+                    if (billPay.ScheduleDate <= DateTime.Today)
                     {
-                        account.Balance -= billPay.Amount;
-                        account.Transactions.Add(
-                            new Transaction
+                        if (account.Balance >= billPay.Amount)
+                        {
+                            account.Balance -= billPay.Amount;
+                            account.Transactions.Add(
+                                new Transaction
+                                {
+                                    TransactionType = "B",
+                                    Amount = billPay.Amount,
+                                    //DestinationAccountNumber = billPay.PayeeID,
+                                    Comment = "Scheduled payment to " + billPay.PayeeID,
+                                    ModifyDate = DateTime.UtcNow
+                                });
+
+                            if (billPay.Period == "S")
                             {
-                                TransactionType = "B",
-                                Amount = billPay.Amount,
-                                DestinationAccountNumber = billPay.PayeeID,
-                                Comment = "Scheduled payment to " + billPay.Payee,
-                                ModifyDate = DateTime.UtcNow
-                            });
+                                dbContext.BillPays.Remove(billPay);
+                            }
 
-                        if (billPay.Period == "S")
-                        {
-                            dbContext.BillPays.Remove(billPay);
-                        }
-
-                        if (billPay.Period == "M")
-                        {
-                            billPay.ScheduleDate.AddMonths(1);
-                        }
-                        else if (billPay.Period == "Q")
-                        {
-                            billPay.ScheduleDate.AddMonths(4);
-                        }
-                        else if (billPay.Period == "Y")
-                        {
-                            billPay.ScheduleDate.AddYears(1);
+                            if (billPay.Period == "M")
+                            {
+                                //billPay.ScheduleDate.AddMonths(1);
+                                billPay.ScheduleDate = billPay.ScheduleDate.AddMonths(1);
+                            }
+                            else if (billPay.Period == "Q")
+                            {
+                                billPay.ScheduleDate.AddMonths(4);
+                            }
+                            else if (billPay.Period == "Y")
+                            {
+                                billPay.ScheduleDate.AddYears(1);
+                            }
                         }
                     }
                 }
