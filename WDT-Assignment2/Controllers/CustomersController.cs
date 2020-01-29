@@ -469,9 +469,6 @@ namespace WDT_Assignment2.Controllers
                 return NotFound();
             }
 
-             
-
-
             if (ModelState.IsValid)
             {
                 try
@@ -492,11 +489,21 @@ namespace WDT_Assignment2.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(AllScheduledPayments));
             }
            // ViewData["AccountNumber"] = new SelectList(_context.Accounts, "AccountNumber", "AccountType", billPay.AccountNumber);
            // ViewData["PayeeID"] = new SelectList(_context.Payees, "PayeeID", "PayeeName", billPay.PayeeID);
             return View(billPay);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CancelPayment(int id)
+        {
+            var billPay = await _context.BillPays.FindAsync(id);
+            _context.BillPays.Remove(billPay);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(AllScheduledPayments));
         }
 
 

@@ -30,27 +30,45 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Account.AccountNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Payee.PayeeName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Amount)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ScheduleDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Period)
-                </td>
-                <td>
-                    <a asp-action="ModifyBillPay" asp-route-id="@item.BillPayID">Modify</a> |
-                    <a asp-action="Delete" asp-route-id="@item.BillPayID">Cancel payment</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Account.AccountNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Payee.PayeeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ScheduleDate)
+            </td>
+
+            @if (item.Period == "M")
+            {
+                <td>Monthly</td>
+            }
+            else if (item.Period == "Q")
+            {
+                <td>Quarterly</td>
+            }
+            else if (item.Period == "Y")
+            {
+                <td>Annually</td>
+            }
+            else if (item.Period == "S")
+            {
+                <td>Once Off</td>
+            }
+
+            @*<td>
+            @Html.DisplayFor(modelItem => item.Period)
+        </td>*@
+            <td>
+                <a asp-action="ModifyBillPay" asp-route-id="@item.BillPayID">Modify</a> |
+                <a asp-action="Delete" asp-route-id="@item.BillPayID">Cancel payment</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
