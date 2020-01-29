@@ -73,6 +73,19 @@ namespace WDT_Assignment2
                         {
                             dbContext.BillPays.Remove(billPay);
                         }
+
+                        if (billPay.Period == "M")
+                        {
+                            billPay.ScheduleDate.AddMonths(1);
+                        }
+                        else if (billPay.Period == "Q")
+                        {
+                            billPay.ScheduleDate.AddMonths(4);
+                        }
+                        else if (billPay.Period == "Y")
+                        {
+                            billPay.ScheduleDate.AddYears(1);
+                        }
                     }
                 }
                 await dbContext.SaveChangesAsync();
