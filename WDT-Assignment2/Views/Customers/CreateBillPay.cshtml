@@ -23,10 +23,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="BillPay.Amount" class="control-label"></label>
-                <input asp-for="BillPay.Amount" name="Amount" class="form-control"
-                       value="@ViewBag.Amount?.ToString("0.00")"
-                       data-val="true" data-val-number="The field Amount must be a number."
-                       data-val-required="The Amount field is required."/>
+                <input asp-for="BillPay.Amount" name="Amount" class="form-control" />
                 @Html.ValidationMessage("amount", new { @class = "text-danger"})
                 <span asp-validation-for="BillPay.Amount" class="text-danger"></span>
             </div>

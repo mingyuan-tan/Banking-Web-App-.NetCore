@@ -503,6 +503,19 @@ namespace WDT_Assignment2.Controllers
                     {
                         _context.BillPays.Remove(billPay);
                     }
+
+                    if (billPay.Period == "M")
+                    {
+                        billPay.ScheduleDate.AddMonths(1);
+                    }
+                    else if (billPay.Period == "Q")
+                    {
+                        billPay.ScheduleDate.AddMonths(3);
+                    }
+                    else if (billPay.Period == "Y")
+                    {
+                        billPay.ScheduleDate.AddYears(1);
+                    }
                 }
             }
             await _context.SaveChangesAsync();
