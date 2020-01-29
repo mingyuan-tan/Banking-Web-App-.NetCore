@@ -27,9 +27,9 @@ namespace WDT_Assignment2.Models
         [StringLength(40)]
         public string City { get; set; }
 
-        [StringLength(3, MinimumLength = 3)]
+        [StringLength(3)]
 
-        [RegularExpression("^(VIC|NSW|WA|SA|NT|ACT)$", ErrorMessage = "Invalid State. Please choose between VIC, NSW, WA, SA, NT or ACT")]
+        [RegularExpression("^(VIC|NSW|WA|SA|TAS|QLD)$", ErrorMessage = "Invalid State. Please choose between VIC, NSW, WA, SA, TAS or ACT")]
         public string State { get; set; }
 
         [Display(Name = "Post Code")]

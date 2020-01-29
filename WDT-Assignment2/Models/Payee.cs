@@ -25,7 +25,7 @@ namespace WDT_Assignment2.Models
 
         // Spec says 3 lettered AU States but there are WA and SA (2 letters). Cannot set exact 3.
         [StringLength(3)]
-        [RegularExpression("^(VIC|NSW|WA|SA|NT|ACT)$", ErrorMessage = "Invalid State. Please choose between VIC, NSW, WA, SA, NT or ACT")]
+        [RegularExpression("^(VIC|NSW|WA|SA|TAS|QLD)$", ErrorMessage = "Invalid State. Please choose between VIC, NSW, WA, SA, TAS or ACT")]
         public string State { get; set; }
 
         [StringLength(4, MinimumLength = 4)]

@@ -4,7 +4,8 @@
     ViewData["Title"] = "AccountNumber";
 }
 
-<h1>BillPay</h1>
+<h1 class="display-4">Pay Your Bills</h1>
+<h3>Enter the details of your new scheduled payment</h3>
 
 <hr />
 <div class="row">
@@ -18,7 +19,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="PayeeID" class="control-label"></label>
-                <input asp-for="PayeeID" class="form-control"  />
+                <select asp-for="PayeeID" class="form-control" asp-items="ViewBag.PayeeID"></select>
                 <span asp-validation-for="PayeeID" class="text-danger"></span>
             </div>
             <div class="form-group">
