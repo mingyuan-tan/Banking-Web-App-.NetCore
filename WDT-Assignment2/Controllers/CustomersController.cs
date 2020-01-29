@@ -390,7 +390,7 @@ namespace WDT_Assignment2.Controllers
         }
 
 
-        public async Task<IActionResult> BillPay()
+        public async Task<IActionResult> CreateBillPay()
         {
             
 
