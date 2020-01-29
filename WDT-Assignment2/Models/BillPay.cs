@@ -36,7 +36,7 @@ namespace WDT_Assignment2.Models
         
         [DataType(DataType.Date)]
         [Required]
-        [Display(Name = "Payment Start Date")]
+        [Display(Name = "Scheduled Date")]
         public DateTime ScheduleDate { get; set; }
 
         [RegularExpression("^(M|Q|Y|S)$", ErrorMessage = "Invalid Period. Please enter 'M' for Monthly, 'Q' for Quarterly, 'Y' for Annually, or 'S' for Once Off")]

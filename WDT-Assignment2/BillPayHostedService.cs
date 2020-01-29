@@ -66,8 +66,8 @@ namespace WDT_Assignment2
                                 {
                                     TransactionType = "B",
                                     Amount = billPay.Amount,
-                                    DestinationAccountNumber = billPay.PayeeID,
-                                    Comment = "Scheduled payment to " + billPay.Payee,
+                                    //DestinationAccountNumber = billPay.PayeeID,
+                                    Comment = "Scheduled payment to " + billPay.PayeeID,
                                     ModifyDate = DateTime.UtcNow
                                 });
 
