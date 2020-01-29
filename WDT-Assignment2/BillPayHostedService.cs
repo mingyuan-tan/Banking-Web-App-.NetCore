@@ -56,7 +56,7 @@ namespace WDT_Assignment2
                 {
                     var account = await dbContext.Accounts.FindAsync(billPay.AccountNumber);
 
-                    if (billPay.ScheduleDate == DateTime.Today)
+                    if (billPay.ScheduleDate <= DateTime.Today)
                     {
                         if (account.Balance >= billPay.Amount)
                         {
@@ -78,7 +78,8 @@ namespace WDT_Assignment2
 
                             if (billPay.Period == "M")
                             {
-                                billPay.ScheduleDate.AddMonths(1);
+                                //billPay.ScheduleDate.AddMonths(1);
+                                billPay.ScheduleDate = billPay.ScheduleDate.AddMonths(1);
                             }
                             else if (billPay.Period == "Q")
                             {
