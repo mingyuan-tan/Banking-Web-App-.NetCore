@@ -363,7 +363,7 @@ namespace WDT_Assignment2.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(MyProfile));
             }
             return View(customer);
         }
