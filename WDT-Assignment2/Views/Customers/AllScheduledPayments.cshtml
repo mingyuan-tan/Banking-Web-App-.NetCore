@@ -60,10 +60,6 @@
             {
                 <td>Once Off</td>
             }
-
-            @*<td>
-            @Html.DisplayFor(modelItem => item.Period)
-        </td>*@
             <td>
                 <a asp-action="ModifyBillPay" asp-route-id="@item.BillPayID">Modify</a> |
                 <a asp-action="DeleteBillPay" asp-route-id="@item.BillPayID">Cancel Payment</a>

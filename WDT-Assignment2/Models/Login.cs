@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 
 namespace WDT_Assignment2.Models
 {
     public class Login
     {
-       
         [Required]
         public int CustomerID { get; set; }
 

@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WDT_Assignment2.Models;
 
 namespace WDT_Assignment2.ViewModels
@@ -21,10 +18,8 @@ namespace WDT_Assignment2.ViewModels
         {
             new SelectListItem { Value = "M", Text = "Monthly" },
             new SelectListItem { Value = "Q", Text = "Quarterly" },
-            new SelectListItem { Value = "Y", Text = "Annually"  },
-            new SelectListItem { Value = "S", Text = "Once Off"  },
-
+            new SelectListItem { Value = "Y", Text = "Annually" },
+            new SelectListItem { Value = "S", Text = "Once Off" },
         };
-
     }
 }

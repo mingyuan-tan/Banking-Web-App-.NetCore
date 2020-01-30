@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 
 namespace WDT_Assignment2.Models
 {
-
     public class Transaction
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -46,6 +42,5 @@ namespace WDT_Assignment2.Models
         [Required]
         [Display(Name = "Last Modified")]
         public DateTime ModifyDate { get; set; }
-
     }
 }

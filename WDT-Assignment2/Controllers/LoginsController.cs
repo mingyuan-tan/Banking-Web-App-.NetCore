@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +10,6 @@ using WDT_Assignment2.Models;
 
 namespace WDT_Assignment2.Controllers
 {
-
-    // Customized route - change the URL 
-    //[Route("/Nbwa/SecureLogin")]
     public class LoginsController : Controller
     {
         private readonly NwbaContext _context;
@@ -34,13 +29,11 @@ namespace WDT_Assignment2.Controllers
                 ModelState.AddModelError("LoginFailed", "Login failed, please try again.");
                 return View(new Login { UserID = userID });
             } 
-            
-            
                 
             if(login == null || !PBKDF2.Verify(login.Password, password))
             {
                 ModelState.AddModelError("LoginFailed", "Login Failed, please try again.");
-                //Console.WriteLine(login.UserID);
+
                 return View(new Login { UserID = userID });
             }
 
@@ -51,7 +44,6 @@ namespace WDT_Assignment2.Controllers
 
             return RedirectToAction("Index", "Customers");
         }
-
 
         //Logout Method 
         [Route("LogoutNow")]

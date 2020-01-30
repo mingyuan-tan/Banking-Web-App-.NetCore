@@ -22,7 +22,6 @@
             {
         <tr>
             <td>@Html.DisplayFor(x => transaction.TransactionID)</td>
-            @*<td>@Html.DisplayFor(x => transaction.TransactionType)</td>*@
             @if (transaction.TransactionType == "D")
             {
                 <td>Deposit</td>
@@ -51,8 +50,6 @@
         </tr>
             }
         </table>
-
-        
         @Html.PagedListPager(Model, page => Url.Action("ViewStatements", new { page }),
             new PagedListRenderOptions
                 {
@@ -60,7 +57,6 @@
                 PageClasses = new[] { "page-link" }
             })
     </div>
-
 <div>
     <a asp-action="Index">Back to Accounts</a>
 </div>
