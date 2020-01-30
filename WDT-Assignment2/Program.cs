@@ -24,7 +24,6 @@ namespace WDT_Assignment2
                 try
                 {
                     SeedData.Initialize(services);
-
                 }
                 catch (Exception ex)
                 {
@@ -32,7 +31,6 @@ namespace WDT_Assignment2
                     logger.LogError(ex, "An error has occured seeding the DB");
                 }
             }
-
             host.Run();
         }
 
@@ -41,7 +39,6 @@ namespace WDT_Assignment2
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-
                     // Start instructions present in Startup.cs 
                     webBuilder.UseStartup<Startup>();
                 })

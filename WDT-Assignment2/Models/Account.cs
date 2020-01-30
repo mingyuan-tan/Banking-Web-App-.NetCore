@@ -7,7 +7,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WDT_Assignment2.Models
 {
-
     public class Account
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -34,5 +33,4 @@ namespace WDT_Assignment2.Models
         // Navigation Property - Account has many BillPays 
         public virtual List<BillPay> BillPays { get; set; }
     }
-
 }

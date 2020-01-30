@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
@@ -36,7 +34,6 @@ namespace WDT_Assignment2.Models
         [StringLength(4, MinimumLength = 4)]
         [RegularExpression("^(0[289][0-9]{2})|([1345689][0-9]{3})|(2[0-8][0-9]{2})|(290[0-9])|(291[0-4])|(7[0-4][0-9]{2})|(7[8-9][0-9]{2})$", ErrorMessage = "Please enter a valid post code")]
         public string PostCode { get; set; }
-
 
         // All Australian phone numbers (landlines only - area code required) (61)XXXX XXXX as per spec sheet 
         [DataType(DataType.PhoneNumber)]

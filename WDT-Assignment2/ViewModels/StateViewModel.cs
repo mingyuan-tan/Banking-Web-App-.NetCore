@@ -12,11 +12,10 @@ namespace WDT_Assignment2.ViewModels
         {
             new SelectListItem { Value = "VIC", Text = "VIC" },
             new SelectListItem { Value = "NSW", Text = "NSW" },
-            new SelectListItem { Value = "QLD", Text = "QLD"  },
-            new SelectListItem { Value = "WA", Text = "WA"  },
-            new SelectListItem { Value = "SA", Text = "SA"  },
-            new SelectListItem { Value = "TAS", Text = "TAS"  },
-
+            new SelectListItem { Value = "QLD", Text = "QLD" },
+            new SelectListItem { Value = "WA", Text = "WA" },
+            new SelectListItem { Value = "SA", Text = "SA" },
+            new SelectListItem { Value = "TAS", Text = "TAS" },
         };
     }
 }
