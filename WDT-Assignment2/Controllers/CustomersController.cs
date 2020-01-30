@@ -86,8 +86,11 @@ namespace WDT_Assignment2.Controllers
             var account = await _context.Accounts.FindAsync(id);
             const decimal withdrawalFee = 0.1m;
             var totalAmount = amount;
+            var notServiceTransactions = account.Transactions.Count(x => x.TransactionType != "S");
+            var transfersToAccount = account.Transactions.Count(x => x.TransactionType == "T" &&  x.DestinationAccountNumber.Equals(null));
+            var transactionsMade = notServiceTransactions - transfersToAccount;
 
-            if (account.Transactions.Count >= 4)
+            if (transactionsMade >= 4)
             {
                 totalAmount = amount + withdrawalFee;
             }
@@ -107,16 +110,32 @@ namespace WDT_Assignment2.Controllers
             }
 
             // Note this code could be moved out of the controller, e.g., into the Model.
-            account.Balance -= totalAmount;
+            account.Balance -= amount;
+
+            // Creates new transaction for withdrawal
             account.Transactions.Add(
                 new Transaction
                 {
                     TransactionType = "W",
-                    Amount = totalAmount,
-                    DestinationAccountNumber = id,
+                    Amount = amount,
                     Comment = comment,
                     ModifyDate = DateTime.UtcNow
                 });
+
+            // Creates new transaction for service charge
+            if (transactionsMade >= 4)
+            {
+                account.Balance -= withdrawalFee;
+
+                account.Transactions.Add(
+                new Transaction
+                {
+                    TransactionType = "S",
+                    Amount = withdrawalFee,
+                    Comment = "Service charge for withdrawal",
+                    ModifyDate = DateTime.UtcNow
+                });
+            }
 
             await _context.SaveChangesAsync();
 
@@ -133,8 +152,11 @@ namespace WDT_Assignment2.Controllers
             var account = await _context.Accounts.FindAsync(id);
             const decimal transferFee = 0.2m;
             var totalAmount = amount;
+            var notServiceTransactions = account.Transactions.Count(x => x.TransactionType != "S");
+            var transfersToAccount = account.Transactions.Count(x => x.TransactionType == "T" && x.DestinationAccountNumber.Equals(null));
+            var transactionsMade = notServiceTransactions - transfersToAccount;
 
-            if (account.Transactions.Count >= 4)
+            if (transactionsMade >= 4)
             {
                 totalAmount = amount + transferFee;
             }
@@ -164,25 +186,41 @@ namespace WDT_Assignment2.Controllers
                 return View(account);
             }
 
-            account.Balance -= totalAmount;
+            // Creates new transaction for transfer
+            account.Balance -= amount;
             account.Transactions.Add(
                 new Transaction
                 {
                     TransactionType = "T",
-                    Amount = totalAmount,
+                    Amount = amount,
                     DestinationAccountNumber = selectedID,
-                    Comment = comment,
+                    Comment = "To account no. " + selectedID + ": " + comment,
                     ModifyDate = DateTime.UtcNow
                 });
 
+            // Creates new transaction for service charge
+            if (transactionsMade >= 4)
+            {
+                account.Balance -= transferFee;
+
+                account.Transactions.Add(
+                new Transaction
+                {
+                    TransactionType = "S",
+                    Amount = transferFee,
+                    Comment = "Service charge for transfer",
+                    ModifyDate = DateTime.UtcNow
+                });
+            }
+
+            // Createse new transaction in destination account
             destAccount.Balance += amount;
             destAccount.Transactions.Add(
                 new Transaction
                 {
                     TransactionType = "T",
                     Amount = amount,
-                    DestinationAccountNumber = id,
-                    Comment = comment,
+                    Comment = "From account no. " + id + ": " + comment,
                     ModifyDate = DateTime.UtcNow
                 });
 
@@ -199,10 +237,13 @@ namespace WDT_Assignment2.Controllers
             var account = await _context.Accounts.FindAsync(id);
             const decimal transferFee = 0.2m;
             var totalAmount = amount;
+            var notServiceTransactions = account.Transactions.Count(x => x.TransactionType != "S");
+            var transfersToAccount = account.Transactions.Count(x => x.TransactionType == "T" && x.DestinationAccountNumber.Equals(null));
+            var transactionsMade = notServiceTransactions - transfersToAccount;
 
             var destAccount = await _context.Accounts.FindAsync(destID);
 
-            if (account.Transactions.Count >= 4)
+            if (transactionsMade >= 4)
             {
                 totalAmount = amount + transferFee;
             }
@@ -227,25 +268,40 @@ namespace WDT_Assignment2.Controllers
                 return View(account);
             }
 
-            account.Balance -= totalAmount;
+            account.Balance -= amount;
             account.Transactions.Add(
                 new Transaction
                 {
                     TransactionType = "T",
-                    Amount = totalAmount,
+                    Amount = amount,
                     DestinationAccountNumber = destID,
-                    Comment = comment,
+                    Comment = "To account no. " + destID + ": " + comment,
                     ModifyDate = DateTime.UtcNow
                 });
 
+            // Creates new transaction for service charge
+            if (transactionsMade >= 4)
+            {
+                account.Balance -= transferFee;
+
+                account.Transactions.Add(
+                new Transaction
+                {
+                    TransactionType = "S",
+                    Amount = transferFee,
+                    Comment = "Service charge for transfer",
+                    ModifyDate = DateTime.UtcNow
+                });
+            }
+
+            // Createse new transaction in destination account
             destAccount.Balance += amount;
             destAccount.Transactions.Add(
                 new Transaction
                 {
                     TransactionType = "T",
-                    Amount = totalAmount,
-                    DestinationAccountNumber = id,
-                    Comment = comment,
+                    Amount = amount,
+                    Comment = "From account no. " + id + ": " + comment,
                     ModifyDate = DateTime.UtcNow
                 });
 

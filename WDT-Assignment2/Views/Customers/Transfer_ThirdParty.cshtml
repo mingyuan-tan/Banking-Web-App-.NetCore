@@ -22,10 +22,7 @@
                        data-val="true" data-val-number="The field Amount must be a number."
                        data-val-required="The Amount field is required." />
                 @Html.ValidationMessage("Amount", new { @class = "text-danger" })
-                @if (Model.Transactions.Count >= 4)
-                {
-                    <p style="font-size: 10px;">NOTE: You have exceeded your 4 free transactions, and tranferral will now include a charge of $0.20.</p>
-                }
+            <p style="font-size: 10px;">NOTE: If you have performed 4 transactions from this account, transferral will now include a charge of $0.20.</p>
             </div>
             <div class="form-group">
                 <label for="Comment" class="control-label">Comment:</label>
