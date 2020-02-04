@@ -388,7 +388,8 @@ namespace WDT_Assignment2.Controllers
                     PayeeID = payeeID,
                     Amount = amount,
                     ScheduleDate = scheduleDate,
-                    Period = period
+                    Period = period,
+                    Status = "Active"
                 });
             await _context.SaveChangesAsync();
 

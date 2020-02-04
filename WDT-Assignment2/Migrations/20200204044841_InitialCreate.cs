@@ -18,7 +18,8 @@ namespace WDT_Assignment2.Migrations
                     City = table.Column<string>(maxLength: 40, nullable: true),
                     State = table.Column<string>(maxLength: 3, nullable: true),
                     PostCode = table.Column<string>(maxLength: 4, nullable: true),
-                    Phone = table.Column<string>(nullable: false)
+                    Phone = table.Column<string>(nullable: false),
+                    Status = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -97,7 +98,8 @@ namespace WDT_Assignment2.Migrations
                     PayeeID = table.Column<int>(nullable: false),
                     Amount = table.Column<decimal>(type: "Money", nullable: false),
                     ScheduleDate = table.Column<DateTime>(nullable: false),
-                    Period = table.Column<string>(nullable: true)
+                    Period = table.Column<string>(nullable: true),
+                    Status = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
