@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using SimpleHashing;
 using WDT_Assignment2.Data;
 using WDT_Assignment2.Models;
+using System.Threading;
 
 namespace WDT_Assignment2.Controllers
 {
@@ -26,21 +27,24 @@ namespace WDT_Assignment2.Controllers
 
             if(login == null || !PBKDF2.Verify(login.Password, password))
             {
-                ModelState.AddModelError("LoginFailed", "Login failed, please try again.");
+                login.LoginAttempts++;
+                await _context.SaveChangesAsync();
+                ViewBag.Attempts = login.LoginAttempts;
+                if(login.LoginAttempts >= 3)
+                {
+                    await AccountLocked(login);
+                    await ResetLoginAttempts(login);
+                }
+                ModelState.AddModelError("LoginFailed", "Login attempt no. " + login.LoginAttempts + " failed, please try again.");
                 return View(new Login { UserID = userID });
             } 
-                
-            if(login == null || !PBKDF2.Verify(login.Password, password))
-            {
-                ModelState.AddModelError("LoginFailed", "Login Failed, please try again.");
-
-                return View(new Login { UserID = userID });
-            }
 
             // Login customer.
             HttpContext.Session.SetInt32(nameof(Customer.CustomerID), login.CustomerID);
             HttpContext.Session.SetString(nameof(Customer.CustomerName), login.Customer.CustomerName);
             HttpContext.Session.SetString("UserID", login.UserID);
+            login.LoginAttempts = 0;
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Index", "Customers");
         }
@@ -53,6 +57,22 @@ namespace WDT_Assignment2.Controllers
             HttpContext.Session.Clear();
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AccountLocked(Login login)
+        {
+            login.Customer.Status = "Blocked";
+            await _context.SaveChangesAsync();
+            return View();
+        }
+
+        [HttpPost]
+        public async Task ResetLoginAttempts(Login login)
+        {
+            Thread.Sleep(30000);
+            login.Customer.Status = "Active";
+            await _context.SaveChangesAsync();
         }
 
 

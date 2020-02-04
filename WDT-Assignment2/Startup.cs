@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using WDT_Assignment2.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 
 namespace WDT_Assignment2
 {

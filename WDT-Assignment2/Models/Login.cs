@@ -22,5 +22,7 @@ namespace WDT_Assignment2.Models
         [DataType(DataType.Date)]
         [Required, StringLength(8)]
         public DateTime ModifyDate { get; set; }
+
+        public int LoginAttempts { get; set; }
     }
 }

@@ -73,7 +73,8 @@ namespace WDT_Assignment2.Migrations
                     UserID = table.Column<string>(maxLength: 50, nullable: false),
                     CustomerID = table.Column<int>(nullable: false),
                     Password = table.Column<string>(maxLength: 64, nullable: false),
-                    ModifyDate = table.Column<DateTime>(maxLength: 8, nullable: false)
+                    ModifyDate = table.Column<DateTime>(maxLength: 8, nullable: false),
+                    LoginAttempts = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

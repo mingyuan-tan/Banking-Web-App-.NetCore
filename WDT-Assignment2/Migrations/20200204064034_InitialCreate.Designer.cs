@@ -10,7 +10,7 @@ using WDT_Assignment2.Data;
 namespace WDT_Assignment2.Migrations
 {
     [DbContext(typeof(NwbaContext))]
-    [Migration("20200204044841_InitialCreate")]
+    [Migration("20200204064034_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -134,6 +134,9 @@ namespace WDT_Assignment2.Migrations
                         .HasMaxLength(50);
 
                     b.Property<int>("CustomerID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LoginAttempts")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ModifyDate")
