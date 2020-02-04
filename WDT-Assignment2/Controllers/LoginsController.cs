@@ -24,6 +24,7 @@ namespace WDT_Assignment2.Controllers
         public async Task<IActionResult> Login(string userID, string password)
         {
             var login = await _context.Logins.FindAsync(userID);
+            var customer = await _context.Customers.FindAsync(login.CustomerID);
 
             if(login == null || !PBKDF2.Verify(login.Password, password))
             {
@@ -32,8 +33,11 @@ namespace WDT_Assignment2.Controllers
                 ViewBag.Attempts = login.LoginAttempts;
                 if(login.LoginAttempts >= 3)
                 {
-                    await AccountLocked(login);
-                    await ResetLoginAttempts(login);
+                    //await ResetLoginAttempts(login);
+                    customer.Status = "Blocked";
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction ("AccountLocked", "Logins");
+                    
                 }
                 ModelState.AddModelError("LoginFailed", "Login attempt no. " + login.LoginAttempts + " failed, please try again.");
                 return View(new Login { UserID = userID });
@@ -59,11 +63,9 @@ namespace WDT_Assignment2.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AccountLocked(Login login)
+
+        public IActionResult AccountLocked()
         {
-            login.Customer.Status = "Blocked";
-            await _context.SaveChangesAsync();
             return View();
         }
 
@@ -72,6 +74,7 @@ namespace WDT_Assignment2.Controllers
         {
             Thread.Sleep(30000);
             login.Customer.Status = "Active";
+            login.LoginAttempts = 0;
             await _context.SaveChangesAsync();
         }
 
