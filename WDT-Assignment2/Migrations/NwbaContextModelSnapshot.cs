@@ -68,6 +68,9 @@ namespace WDT_Assignment2.Migrations
                     b.Property<DateTime>("ScheduleDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("BillPayID");
 
                     b.HasIndex("AccountNumber");
@@ -108,6 +111,10 @@ namespace WDT_Assignment2.Migrations
                     b.Property<string>("State")
                         .HasColumnType("nvarchar(3)")
                         .HasMaxLength(3);
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TFN")
                         .HasColumnType("nvarchar(11)")

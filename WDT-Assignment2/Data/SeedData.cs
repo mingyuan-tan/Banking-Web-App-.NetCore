@@ -24,7 +24,8 @@ namespace WDT_Assignment2.Data
                     Address = "123 Fake Street",
                     City = "Melbourne",
                     PostCode = "3000",
-                    Phone = "0422367027"
+                    Phone = "0422367027",
+                    Status = "Active"
                 },
                 new Customer
                 {
@@ -33,13 +34,15 @@ namespace WDT_Assignment2.Data
                     Address = "456 Real Road",
                     City = "Melbourne",
                     PostCode = "3005",
-                    Phone = "0422367027"
+                    Phone = "0422367027",
+                    Status = "Active"
                 },
                 new Customer
                 {
                     CustomerID = 2300,
                     CustomerName = "Shekhar Kalra",
-                    Phone = "0422367027"
+                    Phone = "0422367027",
+                    Status = "Active"
                 });
 
             context.Logins.AddRange(

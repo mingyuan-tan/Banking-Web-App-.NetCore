@@ -42,6 +42,10 @@ namespace WDT_Assignment2.Models
         [Required]
         public string Phone { get; set; }
 
+        [Required]
+        [RegularExpression("^(Active|Blocked)$")]
+        public string Status { get; set; }
+
         // Navigation Property - Customer has many accounts 
         [JsonIgnore]
         public virtual List<Account> Accounts { get; set;}

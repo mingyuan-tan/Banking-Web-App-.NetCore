@@ -10,7 +10,7 @@ using WDT_Assignment2.Data;
 namespace WDT_Assignment2.Migrations
 {
     [DbContext(typeof(NwbaContext))]
-    [Migration("20200130005045_InitialCreate")]
+    [Migration("20200204044841_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,6 +70,9 @@ namespace WDT_Assignment2.Migrations
                     b.Property<DateTime>("ScheduleDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("BillPayID");
 
                     b.HasIndex("AccountNumber");
@@ -110,6 +113,10 @@ namespace WDT_Assignment2.Migrations
                     b.Property<string>("State")
                         .HasColumnType("nvarchar(3)")
                         .HasMaxLength(3);
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TFN")
                         .HasColumnType("nvarchar(11)")

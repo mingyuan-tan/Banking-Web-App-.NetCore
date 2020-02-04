@@ -38,6 +38,7 @@ namespace WDT_Assignment2
             {
                 // Make the session cookie essential. 
                 options.Cookie.IsEssential = true;
+                options.IdleTimeout = TimeSpan.FromMinutes(1);
             });
 
             services.AddControllersWithViews();
