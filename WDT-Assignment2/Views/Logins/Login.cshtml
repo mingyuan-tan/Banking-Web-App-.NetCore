@@ -22,6 +22,7 @@
                 @Html.ValidationMessage("Password", new { @class = "text-danger" })
             </div>
             <div class="form-group">
+                <input type="hidden" name="Attempts" value=@ViewBag.Attempts />
                 <input type="submit" value="Login" class="btn btn-primary" />
             </div>
             @Html.ValidationMessage("LoginFailed", new { @class = "text-danger" })

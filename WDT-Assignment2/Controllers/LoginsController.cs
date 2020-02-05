@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using SimpleHashing;
 using WDT_Assignment2.Data;
 using WDT_Assignment2.Models;
+using System.Threading;
+using System;
 
 namespace WDT_Assignment2.Controllers
 {
@@ -23,24 +25,50 @@ namespace WDT_Assignment2.Controllers
         public async Task<IActionResult> Login(string userID, string password)
         {
             var login = await _context.Logins.FindAsync(userID);
+            var customer = await _context.Customers.FindAsync(login.CustomerID);
 
             if(login == null || !PBKDF2.Verify(login.Password, password))
             {
-                ModelState.AddModelError("LoginFailed", "Login failed, please try again.");
+                login.LoginAttempts++;
+                await _context.SaveChangesAsync();
+                ViewBag.Attempts = login.LoginAttempts;
+                if(login.LoginAttempts >= 3)
+                {
+                    //await ResetLoginAttempts(login);
+                    customer.Status = "Locked";
+                    login.LockedTime = DateTime.UtcNow;
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction ("AccountLocked", "Logins");
+                    
+                }
+                ModelState.AddModelError("LoginFailed", "Login attempt no. " + login.LoginAttempts + " failed, please try again.");
                 return View(new Login { UserID = userID });
-            } 
-                
-            if(login == null || !PBKDF2.Verify(login.Password, password))
+            }
+            else if(customer.Status == "Locked")
             {
-                ModelState.AddModelError("LoginFailed", "Login Failed, please try again.");
+                if(DateTime.UtcNow >= login.LockedTime.AddSeconds(30))
+                {
+                    login.LoginAttempts = 0;
+                    customer.Status = "Active";
 
-                return View(new Login { UserID = userID });
+                    // Login customer.
+                    HttpContext.Session.SetInt32(nameof(Customer.CustomerID), login.CustomerID);
+                    HttpContext.Session.SetString(nameof(Customer.CustomerName), login.Customer.CustomerName);
+                    HttpContext.Session.SetString("UserID", login.UserID);
+                    login.LoginAttempts = 0;
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction("Index", "Customers");
+                }
+                return RedirectToAction("AccountLocked", "Logins");
             }
 
             // Login customer.
             HttpContext.Session.SetInt32(nameof(Customer.CustomerID), login.CustomerID);
             HttpContext.Session.SetString(nameof(Customer.CustomerName), login.Customer.CustomerName);
             HttpContext.Session.SetString("UserID", login.UserID);
+            login.LoginAttempts = 0;
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Index", "Customers");
         }
@@ -53,6 +81,11 @@ namespace WDT_Assignment2.Controllers
             HttpContext.Session.Clear();
 
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult AccountLocked()
+        {
+            return View();
         }
 
 

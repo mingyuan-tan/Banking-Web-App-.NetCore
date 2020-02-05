@@ -50,19 +50,22 @@ namespace WDT_Assignment2.Data
                 {
                     UserID = "12345678",
                     CustomerID = 2100,
-                    Password = "YBNbEL4Lk8yMEWxiKkGBeoILHTU7WZ9n8jJSy8TNx0DAzNEFVsIVNRktiQV+I8d2"
+                    Password = "YBNbEL4Lk8yMEWxiKkGBeoILHTU7WZ9n8jJSy8TNx0DAzNEFVsIVNRktiQV+I8d2",
+                    LoginAttempts = 0
                 },
                 new Login
                 {
                     UserID = "38074569",
                     CustomerID = 2200,
-                    Password = "EehwB3qMkWImf/fQPlhcka6pBMZBLlPWyiDW6NLkAh4ZFu2KNDQKONxElNsg7V04"
+                    Password = "EehwB3qMkWImf/fQPlhcka6pBMZBLlPWyiDW6NLkAh4ZFu2KNDQKONxElNsg7V04",
+                    LoginAttempts = 0
                 },
                 new Login
                 {
                     UserID = "17963428",
                     CustomerID = 2300,
-                    Password = "LuiVJWbY4A3y1SilhMU5P00K54cGEvClx5Y+xWHq7VpyIUe5fe7m+WeI0iwid7GE"
+                    Password = "LuiVJWbY4A3y1SilhMU5P00K54cGEvClx5Y+xWHq7VpyIUe5fe7m+WeI0iwid7GE",
+                    LoginAttempts = 0
                 });
 
             context.Accounts.AddRange(
