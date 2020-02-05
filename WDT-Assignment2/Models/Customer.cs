@@ -43,7 +43,7 @@ namespace WDT_Assignment2.Models
         public string Phone { get; set; }
 
         [Required]
-        [RegularExpression("^(Active|Blocked)$")]
+        [RegularExpression("^(Active|Locked)$")]
         public string Status { get; set; }
 
         // Navigation Property - Customer has many accounts 

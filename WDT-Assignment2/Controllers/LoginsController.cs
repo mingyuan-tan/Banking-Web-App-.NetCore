@@ -8,6 +8,7 @@ using SimpleHashing;
 using WDT_Assignment2.Data;
 using WDT_Assignment2.Models;
 using System.Threading;
+using System;
 
 namespace WDT_Assignment2.Controllers
 {
@@ -34,14 +35,33 @@ namespace WDT_Assignment2.Controllers
                 if(login.LoginAttempts >= 3)
                 {
                     //await ResetLoginAttempts(login);
-                    customer.Status = "Blocked";
+                    customer.Status = "Locked";
+                    login.LockedTime = DateTime.UtcNow;
                     await _context.SaveChangesAsync();
                     return RedirectToAction ("AccountLocked", "Logins");
                     
                 }
                 ModelState.AddModelError("LoginFailed", "Login attempt no. " + login.LoginAttempts + " failed, please try again.");
                 return View(new Login { UserID = userID });
-            } 
+            }
+            else if(customer.Status == "Locked")
+            {
+                if(DateTime.UtcNow >= login.LockedTime.AddSeconds(30))
+                {
+                    login.LoginAttempts = 0;
+                    customer.Status = "Active";
+
+                    // Login customer.
+                    HttpContext.Session.SetInt32(nameof(Customer.CustomerID), login.CustomerID);
+                    HttpContext.Session.SetString(nameof(Customer.CustomerName), login.Customer.CustomerName);
+                    HttpContext.Session.SetString("UserID", login.UserID);
+                    login.LoginAttempts = 0;
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction("Index", "Customers");
+                }
+                return RedirectToAction("AccountLocked", "Logins");
+            }
 
             // Login customer.
             HttpContext.Session.SetInt32(nameof(Customer.CustomerID), login.CustomerID);
@@ -63,19 +83,9 @@ namespace WDT_Assignment2.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
         public IActionResult AccountLocked()
         {
             return View();
-        }
-
-        [HttpPost]
-        public async Task ResetLoginAttempts(Login login)
-        {
-            Thread.Sleep(30000);
-            login.Customer.Status = "Active";
-            login.LoginAttempts = 0;
-            await _context.SaveChangesAsync();
         }
 
 

@@ -24,5 +24,8 @@ namespace WDT_Assignment2.Models
         public DateTime ModifyDate { get; set; }
 
         public int LoginAttempts { get; set; }
+
+        [DataType(DataType.DateTime)]
+        public DateTime LockedTime { get; set; }
     }
 }
