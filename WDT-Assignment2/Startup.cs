@@ -61,6 +61,9 @@ namespace WDT_Assignment2
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            //set up a middleware to handle the request in the pipeline
+            app.UseStatusCodePagesWithReExecute("/StatusCode/{0}");
+
             // Adds support for reading files from static folders 
             app.UseStaticFiles();
 

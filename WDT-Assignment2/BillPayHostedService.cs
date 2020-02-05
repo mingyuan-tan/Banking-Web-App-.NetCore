@@ -54,7 +54,7 @@ namespace WDT_Assignment2
                 {
                     var account = await dbContext.Accounts.FindAsync(billPay.AccountNumber);
 
-                    if (billPay.ScheduleDate <= DateTime.Today)
+                    if (billPay.ScheduleDate <= DateTime.Today && billPay.Status != "Blocked")
                     {
                         if (account.Balance >= billPay.Amount)
                         {
