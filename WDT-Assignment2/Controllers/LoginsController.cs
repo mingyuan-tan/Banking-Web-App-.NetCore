@@ -46,6 +46,10 @@ namespace WDT_Assignment2.Controllers
             }
             else if(customer.Status == "Locked")
             {
+                return RedirectToAction("AccountLocked", "Logins");
+            }
+            else if(customer.Status == "AttemptLocked")
+            {
                 if(DateTime.UtcNow >= login.LockedTime.AddSeconds(30))
                 {
                     login.LoginAttempts = 0;
