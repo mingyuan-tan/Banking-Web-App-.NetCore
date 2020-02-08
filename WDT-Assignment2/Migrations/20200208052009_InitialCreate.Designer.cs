@@ -10,7 +10,7 @@ using WDT_Assignment2.Data;
 namespace WDT_Assignment2.Migrations
 {
     [DbContext(typeof(NwbaContext))]
-    [Migration("20200205041147_InitialCreate")]
+    [Migration("20200208052009_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

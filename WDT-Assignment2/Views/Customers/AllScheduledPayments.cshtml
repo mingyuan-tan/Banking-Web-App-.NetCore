@@ -24,6 +24,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Period)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -60,6 +63,9 @@
             {
                 <td>Once Off</td>
             }
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
             <td>
                 <a asp-action="ModifyBillPay" asp-route-id="@item.BillPayID">Modify</a> |
                 <a asp-action="DeleteBillPay" asp-route-id="@item.BillPayID">Cancel Payment</a>

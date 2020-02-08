@@ -141,7 +141,8 @@ namespace WDT_Assignment2.Data
                     PayeeID = 5000, 
                     Amount = 44.90m, 
                     ScheduleDate = DateTime.ParseExact("30/12/2019 09:00:00 AM", format, null), 
-                    Period = "M"
+                    Period = "M",
+                    Status = "Active"
                 },
                 new BillPay
                 {
@@ -149,7 +150,8 @@ namespace WDT_Assignment2.Data
                     PayeeID = 5001,
                     Amount = 299.95m,
                     ScheduleDate = DateTime.ParseExact("30/12/2019 09:00:00 AM", format, null),
-                    Period = "M"
+                    Period = "M",
+                    Status = "Active"
                 });
 
             context.Payees.AddRange(
