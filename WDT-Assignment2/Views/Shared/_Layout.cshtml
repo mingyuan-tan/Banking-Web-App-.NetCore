@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http
 
-<!-- This is the layout file that contains the html of the index page except the body. Body is called through C# RenderBody() 
+<!-- This is the layout file that contains the html of the index page except the body. Body is called through C# RenderBody()
     It starts with an underscore(_) as it cannot be accessed by any user -->
 <!DOCTYPE html>
 <html lang="en">
@@ -11,7 +11,9 @@
 
     <!-- The stylesheets (css, js, jquery) are in the wwwroot directory -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://m.w3newbie.com/you-tube.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
 </head>
 <body>
     <header>
@@ -24,13 +26,13 @@
 
                 @if (isLoggedIn)
                 {
-                    <img src="~/images/logo.png" alt="NWBA Logo" />
-                    <a class="navbar-brand" asp-area="" asp-controller="Customers" asp-action="Index">NWBA | Grow Your Livelihood</a>
+
+                    <a class="navbar-brand" asp-area="" asp-controller="Customers" asp-action="Index"> <img class="mr-2" id="logo" src="~/images/logo.png" alt="NWBA Logo" />NWBA | Grow Your Livelihood</a>
                 }
                 else
                 {
-                    <img src="~/images/logo.png" alt="NWBA Logo" />
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">NWBA | Grow Your Livelihood</a>
+
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"> <img class="mr-2" id="logo" src="~/images/logo.png" alt="NWBA Logo" />NWBA | Grow Your Livelihood</a>
                 }
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -95,13 +97,50 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - Rio | Ming - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
+    <footer>
+        <div class="container-fluid padding">
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <img id="logo" src="~/images/logo.png" />
+                    <hr class="light" />
+                    <p>555-555-5555</p>
+                    <p>info@nwba.com.au</p>
+                    <p>100 Knowhere Street</p>
+                    <p>Melbourne, VIC, 3000</p>
+                </div>
+
+                <div class="col-md-4">
+                    <hr class="light" />
+                    <h5>Our hours</h5>
+                    <hr class="light" />
+                    <p>Monday - Friday: 9am - 5pm</p>
+                    <p>Saturday: 10am - 4pm</p>
+                    <p>Sunday: Closed</p>
+                </div>
+
+                <div class="col-md-4">
+                    <hr class="light" />
+                    <h5>Service Area</h5>
+                    <hr class="light" />
+                    <p>Brisbane, QLD</p>
+                    <p>Adelaide, SA</p>
+                    <p>Perth, WA</p>
+                    <p>Sydney, NSW</p>
+                </div>
+
+                <div class="col-12">
+                    <hr class="light-100" />
+                    <h5>&copy; nwba.com.au</h5>
+                </div>
+            </div>
         </div>
     </footer>
+
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/3456e330ee.js" crossorigin="anonymous"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>

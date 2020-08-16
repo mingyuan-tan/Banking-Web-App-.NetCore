@@ -3,18 +3,164 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
 
-    <section class="mission">
-        <div class="text">
-            <h2 class="display-4"> National Wealth Bank of Australia  </h2>
-            <p>
-                Our purpose is to shape a world where people and communities thrive. Our people are proud to help people achieve incredible things – be it buying their home, building a business or saving for things big or small.
+@*----Image Slider----*@
 
-                We're just as focused on seeing our people thrive as well as our customers. We'll give you every opportunity to develop your career. Our people are striving to create a balanced, sustainable society where everyone can build a better life.
-            </p>
+<div id="slides" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#slides" data-slide-to="0" class="active"></li>
+        <li data-target="#slides" data-slide-to="1"></li>
+        <li data-target="#slides" data-slide-to="2"></li>
+    </ol>
+
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="~/images/bank0.jpg" />
+
+            <div class="carousel-caption">
+                <h2 class="display-2">National Wealth Bank of Australia</h2>
+                <h3>We put the third comma in your net worth</h3>
+                <button type="button" class="btn btn-outline-dark btn-lg">
+                    Join Us
+                </button>
+            </div>
         </div>
-        
-    </section>
-    
+
+        <div class="carousel-item">
+            <img src="~/images/bank2.jpg" />
+
+            <div class="carousel-caption page2">
+                <h3 class="col-12 text-right ">We pride in being able to lend you all the money you need to grow your business, if you can prove that you don't need it.</h3>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <img src="~/images/bank1.jpg" />
+            <div class="carousel-caption page2">
+                <h3 class="col-12 ">“The trick is to stop thinking of it as ‘your’ money.” – IRS auditor</h3>
+            </div>
+        </div>
+
+    </div>
+
+
 </div>
+
+<br />
+<hr />
+<br />
+
+@*----Jumbotron----*@
+
+<div class="container-fluid">
+    <div class="row jumbotron .m5">
+        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-10">
+            <p class="lead">
+                Did you know that a bank is a financial institution which is involved in borrowing and lending money?
+            </p>
+
+            <p class="lead">
+                Neither did we.
+            </p>
+
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-xl-2">
+            <a href="#"><button type="button" class="btn btn-outline-secondary btn-lg">Learn More</button></a>
+        </div>
+    </div>
+</div>
+
+
+@*----Welcome Section----*@
+
+<div class="container-fluid padding">
+    <div class="row welcome text-center">
+        <div class="col-12">
+            <h1 class="display-4">What we promise you.</h1>
+        </div>
+        <hr class="my-4" />
+        <div class="col-12">
+            <p class="lead"> The National Wealth Bank of Australia website is built to ensure a functional and delightful banking experience. </p>
+        </div>
+    </div>
+</div>
+
+
+@*----Three Column Section----*@
+
+<div class="container-fluid padding">
+    <div class="row text-center padding">
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <i class="fas fa-piggy-bank"></i>
+            <h3>DEPOSIT</h3>
+            <p>Grow your bank balance by putting money into your account.</p>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <i class="fas fa-exchange-alt"></i>
+            <h3>TRANSFER</h3>
+            <p>Grow other people's bank balance by putting money into their account.</p>
+        </div>
+
+        <div class="col-xs-12 col-md-4">
+            <i class="fas fa-file-invoice-dollar"></i>
+            <h3>BILLPAY</h3>
+            <p>Schedule bill payments and avoid pesky debt collectors.</p>
+        </div>
+    </div>
+</div>
+
+
+<!--- Fixed background -->
+<figure>
+    <div class="fixed-wrap">
+        <div id="fixed">
+
+        </div>
+    </div>
+</figure>
+
+
+@*----Meet The Founders----*@
+
+<div class="container-fluid padding mt-5">
+    <div class="row welcome text-center">
+        <div class="col-12">
+            <h1 class="display-4"> Meet The Founders</h1>
+            <hr />
+        </div>
+    </div>
+</div>
+
+
+
+@*----Cards----*@
+
+<div class="container-fluid padding">
+    <div class="row padding">
+        <div class="col-md-6">
+            <div class="card">
+                <img class="card-img-top" src="~/images/Rio.jpg" />
+                <div class="card-body">
+                    <h4 class="card-text">Caecario Andika Wardana</h4>
+                    <p class="card-text">
+                        Rio, as most people call him, is an IT graduate with 2 years of experience wondering if spending his entire life savings on an expensive degree so that he can change fields...
+                        was a big mistake. He graduated amidst a pandemic and is now dirt broke but still determined to justify his life choices.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <img class="card-img-top" src="~/images/Ming.jpg" />
+                <div class="card-body">
+                    <h4 class="card-text">Ming Yuan Tan</h4>
+                    <p class="card-text">
+                        Just like Rio, but less broke.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
