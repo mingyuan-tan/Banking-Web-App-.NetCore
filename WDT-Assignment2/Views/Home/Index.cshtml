@@ -55,21 +55,41 @@
 <div class="container-fluid">
     <div class="row jumbotron .m5">
         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-10">
-            <p class="lead">
+            <p class="lead font-weight-normal">
                 Did you know that a bank is a financial institution which is involved in borrowing and lending money?
             </p>
 
-            <p class="lead">
+            <p class="lead font-weight-normal">
                 Neither did we.
             </p>
 
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 col-xl-2">
-            <a href="#"><button type="button" class="btn btn-outline-secondary btn-lg">Learn More</button></a>
+            <button type="button" class="btn btn-outline-secondary btn-lg" data-toggle="collapse" data-target="#wikipedia">Learn More</button>
         </div>
     </div>
 </div>
 
+@*----Wikipedia Section----*@
+<div id="wikipedia" class="collapse">
+    <div class="container-fluid padding">
+        <div class="row text-center">
+            <p class="lead">
+                A bank is a financial institution that accepts deposits from the public and creates a demand deposit,
+                while simultaneously making loans. Lending activities can be performed either directly or indirectly through capital markets.
+                <br />
+                <br />
+                Due to the importance of banks in the financial stability of a country, most jurisdictions exercise a high degree of regulation over banks.
+                Most countries have institutionalized a system known as fractional reserve banking, under which banks hold liquid assets equal to only a portion of their current liabilities.
+                In addition to other regulations intended to ensure liquidity, banks are generally subject to minimum capital requirements based on an international set of capital standards,
+                the Basel Accords.
+                <br />
+                <br />
+            </p>
+            <p class="font-weight-bold">- Wikipedia</p>
+        </div>
+    </div>
+</div>
 
 @*----Welcome Section----*@
 
@@ -143,7 +163,7 @@
                 <img class="card-img-top" src="~/images/Rio.jpg" />
                 <div class="card-body">
                     <h4 class="card-text">Caecario Andika Wardana</h4>
-                    <p class="card-text">
+                    <p class="card-text text-justify">
                         Rio, as most people call him, is an IT graduate with 2 years of experience wondering whether spending his entire life savings on an expensive degree in an attempt to switch careers was in fact...
                         a big mistake. He graduated amidst a pandemic and is now dirt broke but still determined to justify his life choices.
                     </p>
@@ -156,7 +176,7 @@
                 <img class="card-img-top" src="~/images/Ming.jpg" />
                 <div class="card-body">
                     <h4 class="card-text">Ming Yuan Tan</h4>
-                    <p class="card-text">
+                    <p class="card-text text-justify">
                         Just like Rio, but less broke.
                     </p>
                 </div>
