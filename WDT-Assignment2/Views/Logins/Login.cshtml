@@ -4,11 +4,11 @@
 }
 
 
-<h1 class="display-4">Login</h1>
-
-<div class="row">
+<div class="row padding">
     <div class="col-md-4">
         <form asp-action="Login">
+            <h1 class="display-4">Login</h1>
+
             <div class="form-group">
                 <label asp-for="UserID" class="control-label"></label>
                 <input asp-for="UserID" class="form-control" />
@@ -28,7 +28,19 @@
             @Html.ValidationMessage("LoginFailed", new { @class = "text-danger" })
         </form>
     </div>
+
+    <figure class="login-background col-md-8">
+        <div class="fixed-wrap">
+            <div id="loginfixed">
+
+            </div>
+        </div>
+    </figure>
+
 </div>
+
+
+
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
