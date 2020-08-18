@@ -48,7 +48,11 @@ a.navbar-brand {
 
 /* Provide sufficient contrast against white background */
 a {
-    color: #de6800;
+    color: #326e24;
+}
+
+.display-4 {
+    color: #326e24; 
 }
 
 .btn-primary {
@@ -104,12 +108,16 @@ button.accept-policy {
 html {
     position: relative;
     min-height: 100%;
+
+}
+
+body {
+    min-height: 800px;
 }
 
 .footer {
     bottom: 0;
     line-height: 60px;
-
 }
 
 
@@ -141,6 +149,10 @@ html {
     width: 57px;
 }
 
+.main-content{
+    min-height: 775px;
+}
+
 footer {
     background-color: #3f3f3f;
     color: #d5d5d5;
@@ -164,6 +176,15 @@ hr.light-100 {
     margin-top: 0.8rem;
     margin-bottom: 1rem;
 }
+
+.jumbotron {
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.jumbotron p {
+        margin-bottom: 0;
+    }
 
 .fa-piggy-bank {
     color: #d47272

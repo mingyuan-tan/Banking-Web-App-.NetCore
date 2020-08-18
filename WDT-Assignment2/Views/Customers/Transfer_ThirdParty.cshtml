@@ -10,14 +10,14 @@
         <form asp-action="Transfer_ThirdParty" asp-route-id="@Model.AccountNumber">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label for="DestID" class="control-label">Destination Account Number:</label>
+                <label for="DestID" class="control-label">Destination Account Number</label>
                 <input id="DestID" name="DestID" class="form-control"
                        data-val="true" data-val-number="The Destination Account No. field must be a number."
                        data-val-required="The Destination Account No. field is required." />
                 @Html.ValidationMessage("destID", new { @class = "text-danger" })
             </div>
             <div class="form-group">
-                <label for="Amount" class="control-label">Transfer Amount:</label>
+                <label for="Amount" class="control-label">Transfer Amount($)</label>
                 <input id="Amount" name="Amount" class="form-control" value="@ViewBag.Amount?.ToString("0.00")"
                        data-val="true" data-val-number="The field Amount must be a number."
                        data-val-required="The Amount field is required." />
