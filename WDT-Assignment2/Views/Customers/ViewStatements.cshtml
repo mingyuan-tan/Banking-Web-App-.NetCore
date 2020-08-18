@@ -8,7 +8,10 @@
 }
 
     <div>
-        <h1>Statements for Account: @account.AccountNumber</h1>
+        <h1 class="display-4">
+            <i class="page-icon fas fa-file-invoice-dollar"></i>
+            Statements for Account: @account.AccountNumber
+        </h1>
         <table class="table">
             <tr>
                 <th>@Html.DisplayNameFor(x => x[0].TransactionID)</th>

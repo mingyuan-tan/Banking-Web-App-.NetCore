@@ -141,6 +141,10 @@ html {
     width: 57px;
 }
 
+.main-content {
+    min-height: 750px;
+}
+
 footer {
     background-color: #3f3f3f;
     color: #d5d5d5;
@@ -177,9 +181,13 @@ hr.light-100 {
     color: #e0b81d
 }
 
-.fa-exchange-alt, .fa-file-invoice-dollar, .fa-piggy-bank {
+.tri-column.fas {
     font-size: 4em;
     margin: 1rem;
+}
+
+.display-4, .page-icon {
+    color: #3CB371;
 }
 
 .card {

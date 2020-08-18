@@ -8,7 +8,10 @@
     @{
         var userID = @Context.Session.GetString("UserID");
      } 
-    <h1 class="display-4">Welcome, @Model.CustomerName</h1>
+    <h1 class="display-4">
+        <i class="page-icon fas fa-landmark"></i>
+    Welcome, @Model.CustomerName
+    </h1>
 
     <h3>Accounts for User ID: @userID</h3>
     <table class="table">
