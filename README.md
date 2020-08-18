@@ -9,6 +9,14 @@ Business Requirements:
 - Transfer money 
 - Schedule payments 
 
+If you would like to sign in, use the credentials provided below: 
+UserID: 
+38074569
+
+Password: 
+ilovermit2020
+
+
 Technologies used: 
 - JQuery 
 - Bootstrap 
@@ -16,3 +24,4 @@ Technologies used:
 - HTML 
 - CSS 
 - C# 
+- Azure Cloud SQL 
