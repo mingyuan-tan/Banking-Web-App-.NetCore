@@ -279,7 +279,7 @@ namespace WDT_Assignment2.Controllers
         // logic for edit customer
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CustomerID,CustomerName,TFN,Address,City,State,PostCode,Phone")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("CustomerID,CustomerName,TFN,Address,City,State,PostCode,Phone,Status")] Customer customer)
         {
             if (id != customer.CustomerID)
             {
