@@ -11,6 +11,7 @@ using WDT_Assignment2.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using System.Globalization;
 
 namespace WDT_Assignment2
 {
@@ -27,6 +28,9 @@ namespace WDT_Assignment2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            
+
             services.AddDbContext<NwbaContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString(nameof(NwbaContext)));
@@ -45,6 +49,11 @@ namespace WDT_Assignment2
             });
 
             services.AddControllersWithViews();
+
+            var cultureInfo = new CultureInfo("en-AU");
+            cultureInfo.NumberFormat.CurrencySymbol = "$";
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
             services.AddDbContext<NwbaContext>(options => options.UseSqlServer(Configuration.GetConnectionString("NwbaContext")));
         }
