@@ -31,14 +31,15 @@ namespace WDT_Assignment2.Controllers
         private CustomerMethods CustomerMethods = new CustomerMethods();
         private BillPayMethods billPayMethods = new BillPayMethods();
         
+        // Get logged in Customer ID and UserID from Session variable 
         private int CustomerID => HttpContext.Session.GetInt32(nameof(Customer.CustomerID)).Value;
-
         private string UserID => HttpContext.Session.GetString("UserID");
 
         public CustomersController(NwbaContext context)
         {
             _context = context;
         }
+
 
         // Return home page 
         public async Task<IActionResult> Index()
@@ -47,6 +48,7 @@ namespace WDT_Assignment2.Controllers
 
             return View(customer);
         }
+
 
         // Opens initial deposit page
         public async Task<IActionResult> Deposit(int id) => View(await _context.Accounts.FindAsync(id));
@@ -58,7 +60,7 @@ namespace WDT_Assignment2.Controllers
         {
             var account = await _context.Accounts.FindAsync(id);
 
-            // If anything wrong with deposit
+            // If anything is wrong with deposit
             if (amount <= 0)
                 ModelState.AddModelError(nameof(amount), "Amount must be positive.");
             if (amount.HasMoreThanTwoDecimalPlaces())
@@ -75,8 +77,10 @@ namespace WDT_Assignment2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
         // Opens initial withdrawal page
         public async Task<IActionResult> Withdrawal(int id) => View(await _context.Accounts.FindAsync(id));
+
 
         // Withdrawal method logic
         [HttpPost]
@@ -94,7 +98,7 @@ namespace WDT_Assignment2.Controllers
                 totalAmount = amount + withdrawalFee;
             }
 
-            // if anything wrong with withdrawal
+            // if anything is wrong with withdrawal
             if (amount <= 0 || amount.HasMoreThanTwoDecimalPlaces() || totalAmount > account.Balance)
                 ModelState.AddModelError(nameof(amount), "Invalid Amount");
             if (!ModelState.IsValid)
@@ -109,13 +113,16 @@ namespace WDT_Assignment2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
         // Opens transfer page to choose transfer to own or transfer to third-party
         public async Task<IActionResult> Transfer(int id) => View(await _context.Accounts.FindAsync(id));
+
 
         // Opens initial transfer to own page
         public async Task<IActionResult> Transfer_Own(int id) => View(await _context.Accounts.FindAsync(id));
 
-        // Transfer to own method logic
+
+        // Transfer to own account method logic
         [HttpPost]
         public async Task<IActionResult> Transfer_Own(int id, decimal amount, string comment)
         {
@@ -156,8 +163,10 @@ namespace WDT_Assignment2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
         // Opens initial transfer to third-party page
         public async Task<IActionResult> Transfer_ThirdParty(int id) => View(await _context.Accounts.FindAsync(id));
+
 
         // Transfer to third-party method logic
         [HttpPost]
@@ -193,6 +202,7 @@ namespace WDT_Assignment2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
         // Opens account selection page before viewing statements
         public async Task<IActionResult> AccountSelection()
         {
@@ -200,6 +210,7 @@ namespace WDT_Assignment2.Controllers
 
             return View(customer);
         }
+
 
         public async Task<IActionResult> IndexToViewStatements(int accountNumber)
         {
@@ -215,8 +226,8 @@ namespace WDT_Assignment2.Controllers
             HttpContext.Session.SetString(AccountSessionKey, accountJson);
 
             return RedirectToAction(nameof(ViewStatements));
-
         }
+
 
         // Opens statement page, using paging list
         public async Task<IActionResult> ViewStatements(int? page = 1)
@@ -239,6 +250,7 @@ namespace WDT_Assignment2.Controllers
             return View(pagedListOrdered);
         }
 
+
         // Opens profile page
         public async Task<IActionResult> MyProfile()
         {
@@ -246,6 +258,7 @@ namespace WDT_Assignment2.Controllers
 
             return View(customer);
         }
+
 
         // Opens page to change password
         [Route("Customers/ChangePasswordView")]
@@ -255,6 +268,7 @@ namespace WDT_Assignment2.Controllers
 
             return View(login);
         }
+
 
         // Opens edit customer page
         public async Task<IActionResult> Edit(int? id)
@@ -275,6 +289,7 @@ namespace WDT_Assignment2.Controllers
 
             return View(customer);
         }
+
 
         // logic for edit customer
         [HttpPost]
@@ -308,6 +323,7 @@ namespace WDT_Assignment2.Controllers
             }
             return View(customer);
         }
+
 
         // logic for changing password
         public async Task<IActionResult> ChangePasswordSet(string password)
@@ -396,6 +412,7 @@ namespace WDT_Assignment2.Controllers
             return RedirectToAction(nameof(AllScheduledPayments));
         }
 
+
         // Opens the page for all the scheduled payments by the customer
         public async Task<IActionResult> AllScheduledPayments()
         {
@@ -425,6 +442,7 @@ namespace WDT_Assignment2.Controllers
             ViewData["PayeeID"] = new SelectList(_context.Payees, "PayeeID", "PayeeName", billPay.PayeeID);
             return View(billPay);
         }
+
 
         // Logic for modifying billpays
         [HttpPost]
@@ -468,6 +486,7 @@ namespace WDT_Assignment2.Controllers
             return RedirectToAction(nameof(AllScheduledPayments));
         }
 
+
         // Logic for deleting billpay
         public async Task<IActionResult> DeleteBillPay(int id)
         {
@@ -477,10 +496,12 @@ namespace WDT_Assignment2.Controllers
             return RedirectToAction(nameof(AllScheduledPayments));
         }
 
+
         private bool BillPayExists(int id)
         {
             return _context.BillPays.Any(e => e.BillPayID == id);
         }
+
 
         private bool CustomerExists(int id)
         {

@@ -35,7 +35,7 @@ namespace WDT_Assignment2.Models
         [RegularExpression("^(0[289][0-9]{2})|([1345689][0-9]{3})|(2[0-8][0-9]{2})|(290[0-9])|(291[0-4])|(7[0-4][0-9]{2})|(7[8-9][0-9]{2})$", ErrorMessage = "Please enter a valid post code")]
         public string PostCode { get; set; }
 
-        // All Australian phone numbers (landlines only - area code required) (61)XXXX XXXX as per spec sheet 
+        // All Australian phone numbers (landlines only - area code required)  
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"(^1300\d{6}$)|(^1800|1900|1902\d{6}$)|(^0[2|3|7|8]{1}[0-9]{8}$)|(^13\d{4}$)|(^04\d{2,3}\d{6}$)",
             ErrorMessage = "Please enter a valid phone number")]

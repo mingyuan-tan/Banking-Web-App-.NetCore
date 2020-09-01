@@ -39,7 +39,9 @@ namespace WDT_Assignment2
             {
                 // Make the session cookie essential. 
                 options.Cookie.IsEssential = true;
-                options.IdleTimeout = TimeSpan.FromMinutes(1);
+
+                // Set user session time out to 10 minutes
+                options.IdleTimeout = TimeSpan.FromMinutes(10);
             });
 
             services.AddControllersWithViews();
