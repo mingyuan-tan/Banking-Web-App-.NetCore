@@ -10,34 +10,39 @@
     </h1>
 
     <h3 class="lead font-weight-normal">Please select the account you want to view</h3>
-    <table class="table">
-        <tr>
-            <th>@Html.DisplayNameFor(x => x.Accounts[0].AccountNumber)</th>
-            <th>@Html.DisplayNameFor(x => x.Accounts[0].AccountType)</th>
-            <th>@Html.DisplayNameFor(x => x.Accounts[0].Balance)</th>
-            <th></th>
-        </tr>
-        @foreach (var account in Model.Accounts)
-        {
-    <tr>
-        <td>@Html.DisplayFor(x => account.AccountNumber)</td>
-        @if (account.AccountType == "S")
-        {
-            <td>Savings</td>
-        }
-        else
-        {
-            <td>Checking</td>
-        }
-        <td>@Html.DisplayFor(x => account.Balance)</td>
-        <td>
-            <form asp-action="IndexToViewStatements">
-                <input type="hidden" name="AccountNumber" value="@account.AccountNumber" />
-                <input type="submit" class="btn btn-primary" value="View Statements" />
-            </form>
-        </td>
 
-    </tr>
-        }
-    </table>
+    <div class="table-responsive">
+        <table class="table">
+            <tr>
+                <th>@Html.DisplayNameFor(x => x.Accounts[0].AccountNumber)</th>
+                <th>@Html.DisplayNameFor(x => x.Accounts[0].AccountType)</th>
+                <th>@Html.DisplayNameFor(x => x.Accounts[0].Balance)</th>
+                <th></th>
+            </tr>
+            @foreach (var account in Model.Accounts)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(x => account.AccountNumber)</td>
+                    @if (account.AccountType == "S")
+                    {
+                        <td>Savings</td>
+                    }
+                    else
+                    {
+                        <td>Checking</td>
+                    }
+                    <td>@Html.DisplayFor(x => account.Balance)</td>
+                    <td>
+                        <form asp-action="IndexToViewStatements">
+                            <input type="hidden" name="AccountNumber" value="@account.AccountNumber" />
+                            <input type="submit" class="btn btn-primary" value="View Statements" />
+                        </form>
+                    </td>
+
+                </tr>
+            }
+        </table>
+    </div>
+
+    
 </div>

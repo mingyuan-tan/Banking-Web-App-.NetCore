@@ -9,72 +9,75 @@
     All Scheduled Payments
 </h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Account)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Payee)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Amount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ScheduleDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Period)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Account.AccountNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Payee.PayeeName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ScheduleDate)
-            </td>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Account)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Payee)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Amount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ScheduleDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Period)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Account.AccountNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Payee.PayeeName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ScheduleDate)
+                    </td>
 
-            @if (item.Period == "M")
-            {
-                <td>Monthly</td>
+                    @if (item.Period == "M")
+                    {
+                        <td>Monthly</td>
+                    }
+                    else if (item.Period == "Q")
+                    {
+                        <td>Quarterly</td>
+                    }
+                    else if (item.Period == "Y")
+                    {
+                        <td>Annually</td>
+                    }
+                    else if (item.Period == "S")
+                    {
+                        <td>Once Off</td>
+                    }
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        <a asp-action="ModifyBillPay" asp-route-id="@item.BillPayID">Modify</a> |
+                        <a asp-action="DeleteBillPay" asp-route-id="@item.BillPayID">Cancel Payment</a>
+                    </td>
+                </tr>
             }
-            else if (item.Period == "Q")
-            {
-                <td>Quarterly</td>
-            }
-            else if (item.Period == "Y")
-            {
-                <td>Annually</td>
-            }
-            else if (item.Period == "S")
-            {
-                <td>Once Off</td>
-            }
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                <a asp-action="ModifyBillPay" asp-route-id="@item.BillPayID">Modify</a> |
-                <a asp-action="DeleteBillPay" asp-route-id="@item.BillPayID">Cancel Payment</a>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
+
 

@@ -50,6 +50,7 @@ namespace WDT_Assignment2
 
             services.AddControllersWithViews();
 
+            // Quick hack to get "$" symbol working
             var cultureInfo = new CultureInfo("en-AU");
             cultureInfo.NumberFormat.CurrencySymbol = "$";
             CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
