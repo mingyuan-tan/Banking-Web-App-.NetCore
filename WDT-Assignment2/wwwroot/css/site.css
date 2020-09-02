@@ -34,7 +34,7 @@ a.navbar-brand {
 .page2 {
     right: 5%;
     text-align: right;
-    max-width: 600px;
+    max-width: 900px;
     left: auto;
     padding: 5px;
 }
@@ -260,6 +260,15 @@ figure {
             padding-bottom: 0.2rem;
         }
 
+        .page2 h3 {
+            top: 15%; 
+            font-size:110%;
+        }
+
+    .page2 h5 {
+        font-size: 80%;
+    }
+
         .carousel-caption .btn {
             font-size: 95%;
             padding: 8px 14px;
@@ -287,6 +296,23 @@ figure {
         .carousel-caption h3 {
             font-size: 110%;
         }
+
+    .logo {
+        font-size: 90%;
+    }
+    
+    page2 {
+        position: absolute; 
+        text-align: center; 
+    }
+
+    .page2 h3 {
+        font-size: 75%;
+    }
+
+    .page2 h5 {
+        font-size: 55%;
+    }
 
         .carousel-caption .btn {
             font-size: 90%;

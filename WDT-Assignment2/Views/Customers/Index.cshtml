@@ -7,11 +7,23 @@
 <div>
     @{
         var userID = @Context.Session.GetString("UserID");
-     } 
+    }
     <h1 class="display-4">
         <i class="page-icon fas fa-landmark"></i>
-    Welcome, @Model.CustomerName
+        Welcome, @Model.CustomerName
     </h1>
+
+    <div class="container-fluid">
+        <div class="row jumbotron">
+            <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 col-xl-10">
+                <p class="lead">
+                    These are accounts you have available with us. You can select the account you wish to withdraw from, 
+                    deposit into, or transfer from here.
+                </p>
+            </div>
+
+        </div>
+    </div>
 
     <h3 class="lead font-weight-normal">Accounts for User ID: @userID</h3>
 
@@ -25,34 +37,34 @@
             </tr>
             @foreach (var account in Model.Accounts)
             {
-                <tr>
-                    <td>@Html.DisplayFor(x => account.AccountNumber)</td>
-                    @if (account.AccountType == "S")
+            <tr>
+                <td>@Html.DisplayFor(x => account.AccountNumber)</td>
+                @if (account.AccountType == "S")
                     {
-                        <td>Savings</td>
+                <td>Savings</td>
                     }
                     else
                     {
-                        <td>Checking</td>
+                <td>Checking</td>
                     }
-                    <td>@Html.DisplayFor(x => account.Balance)</td>
+                <td>@Html.DisplayFor(x => account.Balance)</td>
 
 
-                    <td>
-                        <a class="btn btn-primary"
-                           asp-action="Deposit" asp-route-id="@account.AccountNumber">Deposit</a>
-                    </td>
-                    <td>
-                        <a class="btn btn-primary"
-                           asp-action="Withdrawal" asp-route-id="@account.AccountNumber">Withdraw</a>
-                    </td>
-                    <td>
-                        <a class="btn btn-primary"
-                           asp-action="Transfer" asp-route-id="@account.AccountNumber">Transfer</a>
-                    </td>
-                </tr>
+                <td>
+                    <a class="btn btn-primary"
+                       asp-action="Deposit" asp-route-id="@account.AccountNumber">Deposit</a>
+                </td>
+                <td>
+                    <a class="btn btn-primary"
+                       asp-action="Withdrawal" asp-route-id="@account.AccountNumber">Withdraw</a>
+                </td>
+                <td>
+                    <a class="btn btn-primary"
+                       asp-action="Transfer" asp-route-id="@account.AccountNumber">Transfer</a>
+                </td>
+            </tr>
             }
         </table>
     </div>
-   
+
 </div>
