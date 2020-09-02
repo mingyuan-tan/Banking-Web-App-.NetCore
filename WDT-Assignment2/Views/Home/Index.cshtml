@@ -10,7 +10,6 @@
     <ol class="carousel-indicators">
         <li data-target="#slides" data-slide-to="0" class="active"></li>
         <li data-target="#slides" data-slide-to="1"></li>
-        <li data-target="#slides" data-slide-to="2"></li>
     </ol>
 
     <div class="carousel-inner">
@@ -20,8 +19,8 @@
             <div class="carousel-caption">
                 <h2 class="display-2">National Wealth Bank of Australia</h2>
                 <h3>We put the third comma in your net worth</h3>
-                <button type="button" class="btn btn-outline-dark btn-lg">
-                    Join Us
+                <button type="button" class="btn btn-outline-dark btn-lg" data-toggle="collapse" data-target="#read-more">
+                    Read More
                 </button>
             </div>
         </div>
@@ -34,25 +33,28 @@
             </div>
         </div>
 
-        <div class="carousel-item">
-            <img src="~/images/bank1.jpg" />
-            <div class="carousel-caption page2">
-                <h3 >This website is not a real internet banking system. It simulates banking features such as the ability to deposit, 
-                withdraw, transfer, and schedule bill payments. It features full CRUD operations that uses Azure SQL cloud database with an API giving database access to 
-                its admin portal.     
-                </h3>
-                <br />
-                <h3>
-                    Essentially, It's a demo site to show that this fresh graduate can actually do something for your company if you decide to hire me.
-                </h3>
-                <hr />
-                <h5>C# | ASP.NET Core | HTML | CSS | jQuery | SQL | Azure SQL | Azure Web App Service</h5>
-            </div>
-        </div>
-
     </div>
 
 
+</div>
+
+@*----Read-More Collapsible----*@
+<div id="read-more" class="collapse mt-5">
+    <div class="container-fluid padding">
+        <div class="row text-center">
+            <p class="lead">
+                This website is not a real internet banking system. It simulates banking features such as the ability to deposit,
+                withdraw, transfer, and schedule bill payments. It features full CRUD operations that uses Azure SQL cloud database with an API giving database access to
+                its admin portal. Essentially, It's a demo site to show that this fresh graduate can actually do something for your company if you decide to hire me.
+            </p>
+            <br />
+            <p class="lead text-info">
+                <strong>Technologies:</strong> C# | ASP.NET Core | HTML | CSS | jQuery | Bootstrap | Azure SQL | Azure Web App Service
+            </p>
+            <br />
+
+        </div>
+    </div>
 </div>
 
 <br />
@@ -67,7 +69,7 @@
             <p class="lead font-weight-normal">
                 Did you know that a bank is a financial institution which is involved in borrowing and lending money?
             </p>
-            <br />   
+            <br />
             <p class="lead font-weight-normal">
                 Neither did we.
             </p>
@@ -87,12 +89,12 @@
                 "A bank is a financial institution that accepts deposits from the public and creates a demand deposit,
                 while simultaneously making loans. Lending activities can be performed either directly or indirectly through capital markets."
             </p>
-                <br />
+            <br />
             <p class="font-weight-bold">- Wikipedia</p>
             <br />
             <p class="lead text-info">
-                <strong>Important Note:</strong> Our current Internet banking system does not allow for loans at this time. 
-                Please be patient for future updates. 
+                <strong>Important Note:</strong> Our current Internet banking system does not allow for loans at this time.
+                Please be patient for future updates.
             </p>
             <br />
 
@@ -155,7 +157,7 @@
 <div class="container-fluid padding mt-5">
     <div class="row welcome text-center">
         <div class="col-12">
-            <h1 class="display-4"  style="color: #326e24;"> Meet The Founders</h1>
+            <h1 class="display-4" style="color: #326e24;"> Meet The Founders</h1>
             <hr />
         </div>
     </div>
@@ -171,11 +173,11 @@
             <div class="card">
                 <img class="card-img-top" src="~/images/Rio.jpg" />
                 <div class="card-body">
-                    <h4 class="card-text"  style="color: #326e24;">Caecario Andika Wardana</h4>
+                    <h4 class="card-text" style="color: #326e24;">Caecario Andika Wardana</h4>
                     <p class="card-text text-justify">
                         Caecario is a fresh graduate with big dreams to make it into the tech industry. He had spent prior years working in sales and marketing in one of the biggest consumer technology companies
-                        in the world and wondered if he could be one of the rock stars who creates these nifty products. He then took the biggest gamble and spent the next 2 years acquiring new skills 
-                        in hopes for a career switch and personal fulfilment. 
+                        in the world and wondered if he could be one of the rock stars who creates these nifty products. He then took the biggest gamble and spent the next 2 years acquiring new skills
+                        in hopes for a career switch and personal fulfilment.
                     </p>
                 </div>
             </div>
@@ -185,7 +187,7 @@
             <div class="card">
                 <img class="card-img-top" src="~/images/Ming.jpg" />
                 <div class="card-body">
-                    <h4 class="card-text"  style="color: #326e24;">Ming Yuan Tan</h4>
+                    <h4 class="card-text" style="color: #326e24;">Ming Yuan Tan</h4>
                     <p class="card-text text-justify">
                         The resident IT guy in the family, Ming always had a fascination with technology. After years in the insurance industry with experience with data statistics and analysis, product development and event planning,
                         he decided to take one step towards his passion for IT, as well as a career change, and return to study and improve himself. Newly graduated again, Ming now jumps head-first into his new field, all while being older than your average Masters graduate.
