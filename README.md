@@ -15,11 +15,11 @@ Business Requirements:
 If you would like to sign in, use the credentials provided below: 
 
 ------------------------------------------------------------------
-## Account 1 ##
+Account 1 
 UserID: 38074569
 Password: qwerty1!
 
-## Account 2 ## 
+Account 2 
 UserID: 12345678
 Password: abc123
 ------------------------------------------------------------------
