@@ -319,6 +319,10 @@ namespace WDT_Assignment2.Controllers
                         throw;
                     }
                 }
+
+                // Set customer name session variable to updated value  
+                HttpContext.Session.SetString(nameof(Customer.CustomerName), customer.CustomerName);
+
                 return RedirectToAction(nameof(MyProfile));
             }
             return View(customer);
@@ -326,11 +330,21 @@ namespace WDT_Assignment2.Controllers
 
 
         // logic for changing password
-        public async Task<IActionResult> ChangePasswordSet(string password)
+        public async Task<IActionResult> ChangePasswordSet(string password, string confirmPassword)
         {
             var login = await _context.Logins.FindAsync(UserID);
+
+            // If password and confirmpassword do not match 
+            if (!password.Equals(confirmPassword))
+            {
+                ModelState.AddModelError(nameof(confirmPassword), "The passwords do not match");
+            }
+
             if (PBKDF2.Verify(login.Password, password))
+            {
                 ModelState.AddModelError(nameof(password), "Cannot change to the same password");
+            }
+               
             if (!ModelState.IsValid)
             {
                 ViewBag.Password = password;
