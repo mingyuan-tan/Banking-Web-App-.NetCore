@@ -106,7 +106,7 @@ html {
 }
 
 body {
-    min-height: 800px;
+    min-height: 100%;
 }
 
 .footer {
@@ -144,7 +144,7 @@ body {
 }
 
 .main-content {
-    min-height: 750px;
+    min-height: 66vh;
 }
 
 footer {
@@ -259,6 +259,12 @@ figure {
         font-size: 4em;
         padding: 2rem;
     }
+
+    .carousel-caption h2 {
+        font-size: 300%;
+        text-transform: uppercase;
+    }
+
 }
 
 @media (max-width: 768px) {
